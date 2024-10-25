@@ -1,5 +1,5 @@
 # Scrum masters log
-1. student name 1
+1. João Rivera
 2. Dimitrios Schoinas
 3.
 4.
