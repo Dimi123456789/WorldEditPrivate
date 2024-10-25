@@ -1,7 +1,7 @@
 # User story 2
 ## Author(s)
-Add author(s) here
+Dimitrios Schoinas
 ## Reviewer(s)
-Add reviewer(s) here
+João Rivera e Gonçalo Cascais
 # User story
-As a ... I want to ... so that ...
+As a player I want a way to apply visual weather effects, such as rain, snow, and drought, to specific areas of the building. These effects would simulate the impact of weather on the blocks, altering their appearance to reflect wet, frozen or weathered conditions so that I can create a visually immersive experience.
