@@ -1,7 +1,7 @@
 # User story 3
 ## Author(s)
-Add author(s) here
+Ideia: Gonçalo Cascais, User Story: João Rivera
 ## Reviewer(s)
-Add reviewer(s) here
+João Nascimento
 # User story
-As a ... I want to ... so that ...
+As a Minecraft player I want to be able to create an on-demand artificial lake to fill in the space around my house giving it an amazing view and a feel of nature. 
