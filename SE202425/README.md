@@ -1,3 +1,5 @@
 # Software Engineering 2024/2025
 
-Please add your student numbers and names here.
+Joâo Rivera Nº62877
+
+Please add your student numbers and names her
