@@ -6,5 +6,7 @@
 Dimitrios Schoinas
 
 ## Management info
-Burndown chart
+Burndown chart:
+Acessado através do seguinte link: [Sprint 2.xlsx](https://github.com/user-attachments/files/17526757/Sprint.2.xlsx)
+
 Scrum board
