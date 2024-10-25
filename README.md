@@ -8,13 +8,12 @@
 
 62896 - João Nascimento - Nascimento231003
 
-Student number - Student name - github identifier
+65313 - Dimitrios Schoinas - Dimi123456789
 
 Student number - Student name - github identifier
 
 Student number - Student name - github identifier
 
-Student number - Student name - github identifier
 
 All the Software Engineering 2024/2025 project documentation is placed under the folder SE202425.
 
