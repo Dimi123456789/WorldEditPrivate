@@ -4,7 +4,7 @@
 
 ## Software Engineering 2024/2025
 
-Student number - Student name - github identifier
+60046 - Goncalo Cascais - gcascais215
 
 Student number - Student name - github identifier
 
