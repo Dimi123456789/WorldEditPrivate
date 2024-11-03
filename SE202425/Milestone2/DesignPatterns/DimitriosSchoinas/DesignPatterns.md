@@ -27,3 +27,17 @@ Location on code base: WorldEditPrivate\worldedit-fabric\src\main\java\com\sk89q
 
 Discussion of the rationale for identifying:
 The Adapter pattern was chosen because it provides a structured and efficient way to convert data between two incompatible systems (Minecraft and WorldEdit) without altering either system. This approach promotes code reuse, maintainability, and scalability while keeping the interfaces clean and compatible.
+
+Iterator Pattern
+
+Code snipet:
+
+![image](https://github.com/user-attachments/assets/3349d0a4-c224-4e63-a754-d65a2e4050ce)
+![image](https://github.com/user-attachments/assets/2a70fb62-2e84-49f8-bf2d-87270f53f519)
+
+Class diagram:
+
+![image](https://github.com/user-attachments/assets/94c8f6ed-5573-434a-98bf-1cd71d17fba5)
+
+Discussion of the rationale for identifying:
+In the context of CylinderRegion, this pattern is used to enable traversal of the blocks within a cylindrical region. By providing an iterator, the class lets other parts of the WorldEdit code to process each block in the region without needing to understand how the region is represented internally or how to calculate the points within the cylinder.
