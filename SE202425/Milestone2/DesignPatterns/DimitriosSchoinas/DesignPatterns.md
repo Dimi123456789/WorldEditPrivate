@@ -7,7 +7,7 @@ Class diagram:
  ![image](https://github.com/user-attachments/assets/4a007107-3bd6-4b80-b5e7-ad8afb1c04ac)
  
 
-Location on code base: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\command\factory\FeatureGeneratorFactory.java
+Location on code base: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\command\factory\FeatureGeneratorFactory.java    createFromContext() method
 
 Discussion of the rationale for identifying:
 The FeatureGeneratorFactory class uses the createFromContext() method to create a new RegionMaskingFilter instance.
