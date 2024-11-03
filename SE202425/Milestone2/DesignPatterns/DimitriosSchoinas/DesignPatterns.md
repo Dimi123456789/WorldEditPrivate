@@ -39,5 +39,9 @@ Class diagram:
 
 ![image](https://github.com/user-attachments/assets/94c8f6ed-5573-434a-98bf-1cd71d17fba5)
 
+Location on code base:
+WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\regions\CylinderRegion.java    (iterator() method)
+and WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\regions\iterator\FlatRegion3DIterator.java
+
 Discussion of the rationale for identifying:
 In the context of CylinderRegion, this pattern is used to enable traversal of the blocks within a cylindrical region. By providing an iterator, the class lets other parts of the WorldEdit code to process each block in the region without needing to understand how the region is represented internally or how to calculate the points within the cylinder.
