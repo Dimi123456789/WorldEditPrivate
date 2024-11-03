@@ -8,3 +8,6 @@ Number of Children (NOC) Calculates the total number of direct subclasses of giv
 The Response for Class (RFC) metric is the total number of methods that can potentially be executed in response to a message received by an object of a class. This number is the sum of the methods of the class, and all distinct methods are invoked directly within the class methods. Additionally, inherited methods are counted, but overridden methods are not, because only one method of a particular signature will always be available to an object of a given class.
 Weighted Method Count (Weighted Method per Class) (WMC) A weighted sum of methods implemented within a class. It is parameterized by a way to compute the weight of each method
 
+Potential trouble spots in the codebase: Coupling Between Objects and The Response for Class 
+
+The high Coupling Between Objects value and the The Response for Class value is related with the code smell "Inaproppriate intimacy" since their value is so high.
