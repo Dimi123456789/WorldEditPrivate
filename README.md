@@ -10,7 +10,7 @@
 
 65313 - Dimitrios Schoinas - Dimi123456789
 
-Student number - Student name - github identifier
+62877 - João Rivera - joao-rivera
 
 Student number - Student name - github identifier
 
