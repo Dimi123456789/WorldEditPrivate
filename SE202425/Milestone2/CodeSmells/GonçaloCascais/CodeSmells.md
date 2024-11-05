@@ -29,17 +29,17 @@ Refactoring proposal: Extract this logic into a separate method, such as calcula
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Excessive Number of Parameters
+Conditional Complexity
 
 Code snippet:
 
-![image](https://github.com/user-attachments/assets/c608edc8-526f-4d14-8861-eeec6aa59147)
+![image](https://github.com/user-attachments/assets/91379cae-deaa-42d9-bd0a-ada934bf372d)
 
-![image](https://github.com/user-attachments/assets/317a4d27-e801-402b-830f-b8639f9f98ab)
+![image](https://github.com/user-attachments/assets/3e917a0c-155c-4d79-b0b6-6c04b1c3bdd9)
 
-Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/command/UtilityCommands.java
+Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/command/RegionCommands.java
 
-Explanation of the rationale for identifying this code smell: The method takes a large number of parameters (10 switches and an argument). This is difficult to read, maintain, and understand. It also makes the method susceptible to user error when calling it with so many switches.
+Explanation of the rationale for identifying this code smell: The nested conditionals for determining the combinedMask can become difficult to read.
 
-Refactoring proposal: Create a ButcherOptions class or data structure that encapsulates these parameters, improving readability and making it easier to manage options as a single object.
+Refactoring proposal: Simplify this logic into a separate method.
 
