@@ -1,35 +1,38 @@
-Multiple try-catch blocks in sequence
+Long parameter list
 
 Code snippet:
 
-![image](https://github.com/user-attachments/assets/ec54381b-8d33-48c2-b208-1cd9752c97e2)
+![image](https://github.com/user-attachments/assets/dcfc0681-9819-4d34-9bf2-56fc3a4fa71c)
 
-Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/command
-/LegacySnapshotUtilCommands.java
 
-Explanation of the rationale for identifying this code smell: In the restore method, there are multiple try-catch blocks in sequence, with some nested inside others. This is an indication that the code is performing too many exception-prone operations in a single function, which reduces clarity and increases maintenance complexity.
+Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit
+/EditSession.java
 
-Refactoring proposal:  Refactor into Helper Methods: Split the logic into smaller, more specialized methods that handle different operations. For instance, move the snapshot loading logic into a separate method that can handle exceptions more specifically.
-Encapsulate Error Handling in Utility Methods: Create utility methods that wrap operations in try-catch blocks to improve readability and reduce code duplication.
+Explanation of the rationale for identifying this code smell: This can make it harder to understand, maintain, and test the code. The parameters also contain related data (like zero and unit vectors, which are used to configure the environment, and parameters that define the shape and behavior like pattern, expression, hollow, and timeout).
 
+Refactoring proposal:  Group parameters like expression, pattern, and environment as ExpressionConfig. This keeps related functional parameters encapsulated and reduces the direct parameter list for makeShape.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Complex Conditional Logic
+Primitive obsession
 
 Code snippet:
 
-![image](https://github.com/user-attachments/assets/e1a3ac15-1959-4536-a43d-3de31f5b44fe)
+![image](https://github.com/user-attachments/assets/4aa86486-c10d-4b9f-b198-3981d459c88d)
+![image](https://github.com/user-attachments/assets/98a38608-e1cc-495d-966e-be24e95d6680)
+![image](https://github.com/user-attachments/assets/6b403cb3-68a9-41b3-902e-a4352fc0d91e)
 
-Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/command
-/GenerationCommands.java
 
-Explanation of the rationale for identifying this code smell: The logic for determining the zero and unit vectors is quite complex, involving multiple conditional branches. This makes the code harder to read and understand, increasing the risk of errors during maintenance.
 
-Refactoring proposal: Extract this logic into a separate method, such as calculateOriginAndUnit, that returns a pair of Vector3 objects. This would simplify the main method and make the code more readable and easier to maintain.
+
+Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/EditSession.java
+
+Explanation of the rationale for identifying this code smell: The code here demonstrates a form of primitive obsession because it's relying heavily on individual x, y, and z values to represent points, rather than using a dedicated class to encapsulate this data. This leads to repeated code and potential readability issues, as calculations are performed on individual coordinates instead of through a well-defined structure.
+
+Refactoring proposal: Create a Point3D class that stores x, y, and z as fields.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Conditional Complexity
+Long Method
 
 Code snippet:
 
@@ -39,7 +42,7 @@ Code snippet:
 
 Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/command/RegionCommands.java
 
-Explanation of the rationale for identifying this code smell: The nested conditionals for determining the combinedMask can become difficult to read.
+Explanation of the rationale for identifying this code smell: Long method, code readability could be improved by breaking this into smaller, focused methods.
 
 Refactoring proposal: Simplify this logic into a separate method.
 
