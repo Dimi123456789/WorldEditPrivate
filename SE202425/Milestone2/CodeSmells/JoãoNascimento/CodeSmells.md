@@ -2,7 +2,7 @@ Long Parameter List
 
 Code snipet:
 
-
+![image](https://github.com/user-attachments/assets/a2abfceb-8dbf-4e5b-9bfa-fd8ea955afaf)
 
 Exact location: worldedit-core/src/main/java/com/sk89q/worldedit/util/TargetBlock.java
 
@@ -14,7 +14,7 @@ Speculative Generality
 
 Code snipet:
 
-
+![image](https://github.com/user-attachments/assets/15eb3851-aa1b-4665-af4f-6dc6d49854e7)
 
 Exact location: worldedit-core/src/main/java/com/sk89q/worldedit/MaxBrushRadiusException.java
 
@@ -26,8 +26,9 @@ Long Method
 
 Code snipet:
 
-![image]
-
+![image](https://github.com/user-attachments/assets/a80fd592-792c-4e79-9f54-491856a4f5d0)
+![image](https://github.com/user-attachments/assets/2b07621f-a8db-44bc-b08c-750784c5fe12)
+![image](https://github.com/user-attachments/assets/6bfc72eb-abc2-4a97-b4a8-ec505a975db4)
 
 Exact location: worldedit-core/src/main/java/com/sk89q/worldedit/WorldEdit.java
 
