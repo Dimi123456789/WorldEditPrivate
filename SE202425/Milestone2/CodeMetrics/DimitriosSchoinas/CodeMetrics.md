@@ -29,7 +29,9 @@ Measures the cohesiveness of methods within a class. Higher values indicate lowe
 High LCOM suggests that a class may be handling unrelated responsibilities and is a candidate for refactoring.
 High LCOM values are indicators of Large Class . Improving cohesion by breaking up large classes can help align with the Single Responsibility Principle, simplifying maintenance.
 
-Potential trouble spots in the codebase: ![image](https://github.com/user-attachments/assets/0f99dea8-745d-46a0-972e-72c1709dc550)
+Potential trouble spots in the codebase: 
+
+![image](https://github.com/user-attachments/assets/0f99dea8-745d-46a0-972e-72c1709dc550)
 Based on the collected metrics, I identified potential trouble spots in the codebase by examining extreme values through the graphics and metrics values collect. These visualizations allowed me to see the distribution of each metric and pinpoint outliers.
 For example, classes like EditSession and FabricRegistries had significantly high WMC and RFC values, suggesting they may be Divergent Classes with too many responsibilities.
 Classes such as BlockVector3 had high CBO values, indicating a strong dependency on other classes, which could make it difficult to modify without affecting other parts of the system.
