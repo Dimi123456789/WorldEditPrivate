@@ -1,0 +1,1 @@
+Review code smell 2: Dimitrios Schoinas 65313 - This code smell seems well identified since there is not any code inside it , which means that this method is a good example for speculative generality code smell since it doesn't add any behavior and adds unnecessary complexity to the code.
