@@ -8,7 +8,7 @@ Code snipet:
 Exact location: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\command\ToolCommands.java     
 
 Explanation of the rationale for identifying this code smell: The ToolCommands class relies on multiple components and accesses many different classes and their specific functions to perform command operations. This is especially evident in methods that use several classes and objects from other packages (CommandManager, LocalSession, WorldEdit, Player, etc.), indicating that ToolCommands has a high level of coupling with these classes. This reliance on the internal workings of many classes suggests that ToolCommands might be too "intimate" with these other classes.
-I found this code smell because the code metrics showed that this method had high coupling
+I found this code smell because with the collected code metrics, the metric CBO(Coupling Between Objects ) was way higher in this class compared to the average number between all classes.
 
 Long method
 
