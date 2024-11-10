@@ -1,9 +1,7 @@
 Metric set: Chidamber-Kemerer Metrics Set
 
 Metrics file:
-[worldedit2.xlsx](https://github.com/user-attachments/files/17692365/worldedit2.xlsx)
-
-
+[worldedit2.xlsx](https://github.com/user-attachments/files/17692374/worldedit2.xlsx)
 
 Report:
 Weighted Methods per Class (WMC):
