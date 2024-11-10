@@ -47,3 +47,8 @@ Description: Activates the selection wand tool, allowing users to mark areas for
 Primary Actor: Gamer
 
 Secondary Actor: None
+
+**Use case diagram:**
+
+![image](https://github.com/user-attachments/assets/626d7067-13b4-46f9-88cb-4e1a0ac6f5bd)
+
