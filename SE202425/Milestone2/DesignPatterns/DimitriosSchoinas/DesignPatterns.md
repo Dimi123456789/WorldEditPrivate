@@ -14,6 +14,8 @@ The FeatureGeneratorFactory class uses the createFromContext() method to create 
 This method accepts an EditContext as a parameter, which gives you access to the context needed to construct a RegionMaskingFilter object configured with a noise filter and a feature generator .
 Instead of directly creating these objects in various parts of the code, the FeatureGeneratorFactory factory encapsulates the creation and allows client code to request configured instances without worrying about the internal details.
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 **Adapter pattern**
 
 Code snipet:
@@ -27,6 +29,8 @@ Location on code base: WorldEditPrivate\worldedit-fabric\src\main\java\com\sk89q
 
 Discussion of the rationale for identifying:
 The Adapter pattern was chosen because it provides a structured and efficient way to convert data between two incompatible systems (Minecraft and WorldEdit) without altering either system. This approach promotes code reuse, maintainability, and scalability while keeping the interfaces clean and compatible.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **Iterator Pattern**
 
