@@ -29,6 +29,12 @@ Measures the cohesiveness of methods within a class. Higher values indicate lowe
 High LCOM suggests that a class may be handling unrelated responsibilities and is a candidate for refactoring.
 High LCOM values are indicators of Large Class . Improving cohesion by breaking up large classes can help align with the Single Responsibility Principle, simplifying maintenance.
 
-Potential trouble spots in the codebase:BiomeCommands Class, BrushCommands Class  and a lot of other classes because of the high Coupling Between Objects metric value and BrushCommands Class because of the high  Response for Class metric value
+Potential trouble spots in the codebase: ![image](https://github.com/user-attachments/assets/0f99dea8-745d-46a0-972e-72c1709dc550)
+Based on the collected metrics, I identified potential trouble spots in the codebase by examining extreme values through the graphics and metrics values collect. These visualizations allowed me to see the distribution of each metric and pinpoint outliers.
+For example, classes like EditSession and FabricRegistries had significantly high WMC and RFC values, suggesting they may be Divergent Classes with too many responsibilities.
+Classes such as BlockVector3 had high CBO values, indicating a strong dependency on other classes, which could make it difficult to modify without affecting other parts of the system.
+Classes with high LCOM values, like OffsetsMask2D.Builder, show low cohesion and may be handling multiple responsibilities, suggesting they may benefit from refactoring to improve cohesion and follow the Single Responsibility Principle. Addressing these trouble spots could enhance code readability, maintainability, and reduce potential bugs.
 
-The high Coupling Between Objects value and the The Response for Class value is related with the code smell "Inaproppriate intimacy" since their value is so high and when analysing the code I can verify the code smells that were pointed by the collected metrics.
+By examining the metrics in conjunction with identified code smells, we can see clear relationships:
+The high CBO (Coupling Between Object Classes)  and low cohesion (High LCOM) values point to potential Inappropriate Intimacy by indicating strong interdependencies and scattered responsibilities.
+The high WMC(Weighted Methods per Class) and high RFC(Response for a Class) suggest Long Method issues, as they reflect classes with complex methods that could be simplified .
