@@ -5,3 +5,8 @@ João Rivera 62877
 Review code smell 2:
 Gonçalo Cascais 60046
 -Your analysis of the code smell is well done, You've accurately identified the potential issues and provided clear explanations on why they could impact maintainability and readability.
+
+Review code smell3:
+Diogo Mateus 65379
+-The code smell is well explained and is a correct identification of a long parameter code smell. The solution apresented should solve the problem
+in question. Well done.
