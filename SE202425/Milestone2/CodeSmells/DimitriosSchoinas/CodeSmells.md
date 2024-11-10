@@ -1,4 +1,4 @@
-Inaproppriate Intimacy
+**Inaproppriate Intimacy**
 
 Code snipet:
 
@@ -10,7 +10,11 @@ Exact location: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedi
 Explanation of the rationale for identifying this code smell: The ToolCommands class relies on multiple components and accesses many different classes and their specific functions to perform command operations. This is especially evident in methods that use several classes and objects from other packages (CommandManager, LocalSession, WorldEdit, Player, etc.), indicating that ToolCommands has a high level of coupling with these classes. This reliance on the internal workings of many classes suggests that ToolCommands might be too "intimate" with these other classes.
 I found this code smell because with the collected code metrics, the metric CBO(Coupling Between Objects ) was way higher in this class compared to the average number between all classes.
 
-Long method
+Refactoring: To address the Inappropriate Intimacy smell in this code, we can focus on reducing the direct interactions between ToolUtilCommands and BrushTool by adding a service layer that abstracts these interactions. This can prevent ToolUtilCommands from accessing too many low-level details in BrushTool and LocalSession, reducing coupling and improving modularity.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+**Long method**
 
 Code snipet:
 
@@ -24,10 +28,14 @@ Code snipet:
 Exact location: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\extent\clipboard\io\sponge\SpongeSchematicV2Writer.java      ( write2() method)
 
 Explanation of the rationale for identifying this code smell: 
-The method is lengthy, spanning numerous lines with multiple embedded blocks and layers of logic. This makes it hard to read, understand, and maintain.It performs several distinct tasks that could be refactored into separate methods
-I found this code smell because the code metrics showed that it is a long method
+The method is lengthy, spanning numerous lines with multiple embedded blocks and layers of logic. This makes it hard to read, understand, and maintain.It performs several distinct tasks that could be refactored into separate methods.
+I found this code smell because with the collected code metrics because the value of the WMC( Weighted Method Count ) metric was almost double the avarage class value.
 
-Long parameter list
+Refactoring: To address the Long Method smell in the write2 method, we can refactor it by breaking down sections of logic into smaller, more focused methods, since I can clearly identify segments of the code that can be implemented into their own separate method.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+**Long parameter list**
 
 Code snipet:
 
@@ -37,5 +45,7 @@ Exact location:
 WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\command\UtilityCommands.java    ( butcher() method)
 
 Explanation of the rationale for identifying this code smell: 
-This method has too many parameters, making it hard to understand and maintain. Excessive parameters often indicate the need for refactoring, possibly by grouping related parameters into objects or classes
-I chose this code smell because the metric profile showed that this method had very high parameter number.
+This method has too many parameters, making it hard to understand and maintain. 
+I chose this code smell because the metric profile showed that this method had a very high parameter number ( note: this metric is not present in my metrics file, since it is not part of my metrics set)
+
+Refactoring: To address the Long Parameter List smell in the butcher method, we can group related parameters into a new class, such as ButcherOptions. This class will encapsulate the various boolean flags and radius, making the butcher method signature shorter and easier to understand.
