@@ -23,4 +23,6 @@ Use case description: The Player executes this command using the /restore [snaps
 Main actor: Player
 Secondary actor: None
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Use case diagram:
+Use case diagram:![image](https://github.com/user-attachments/assets/e0269afe-58d5-48bd-b8c8-8b1a661ded7d)
+
+
