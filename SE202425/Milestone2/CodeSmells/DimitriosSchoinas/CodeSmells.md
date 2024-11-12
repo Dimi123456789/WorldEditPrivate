@@ -25,7 +25,7 @@ Code snipet:
 ![image](https://github.com/user-attachments/assets/fc485814-0879-4f1f-a4ad-285811b173c4)
 ![image](https://github.com/user-attachments/assets/6c0445b9-43f5-43ed-a253-cb681b722fb2)
 
-Exact location: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\extent\clipboard\io\sponge\SpongeSchematicV2Writer.java      ( write2() method)
+Exact location: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\extent\clipboard\io\sponge\SpongeSchematicV2Writer.java   
 
 Explanation of the rationale for identifying this code smell: 
 The method is lengthy, spanning numerous lines with multiple embedded blocks and layers of logic. This makes it hard to read, understand, and maintain.It performs several distinct tasks that could be refactored into separate methods.
