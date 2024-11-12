@@ -1,10 +1,10 @@
-Iterator Pattern
+Factory Pattern
 
-Code snipet:
+Code snipet: ![image](https://github.com/user-attachments/assets/d2bf6cdf-2ef1-4a03-ba78-db4e35c0baa5)
 
-Class diagram:![alt text](image.png)
+Class diagram: ![image](https://github.com/user-attachments/assets/7869ac8f-147f-4e9b-a805-f3dfc9832f97)
 
-Location on code base:
+Location on code base: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit
 
 Discussion of the rationale for identifying:
 
