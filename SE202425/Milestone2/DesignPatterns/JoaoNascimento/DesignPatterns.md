@@ -6,7 +6,7 @@ Class diagram: ![image](https://github.com/user-attachments/assets/7869ac8f-147f
 
 Location on code base: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit
 
-Discussion of the rationale for identifying:
+Discussion of the rationale for identifying: The importance of this Factory Pattern lies in providing a more robust, flexible and easy-to-maintain design. Tt facilitates consistent EditSession creation by centralizing the logic, making the system more adaptable to change, and improving interoperability between different parts of the code.
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -30,4 +30,4 @@ Class diagram: ![image](https://github.com/user-attachments/assets/3db08467-9f5d
 
 Location on code base: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\util\eventbus
 
-Discussion of the rationale for identifying: 
+Discussion of the rationale for identifying: Implementing the Observer Pattern with MethodHandleEventHandler is crucial for a robust, decoupled, and efficient event system. It provides greater flexibility, scalability, and reliability, ensuring that different parts of the system can interact in a fluid and modular manner, even in large-scale projects.
