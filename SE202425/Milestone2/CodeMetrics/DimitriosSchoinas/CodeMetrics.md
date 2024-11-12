@@ -40,3 +40,7 @@ Classes with high LCOM values, like OffsetsMask2D.Builder, show low cohesion and
 By examining the metrics in conjunction with identified code smells, we can see clear relationships:
 The high CBO (Coupling Between Object Classes)  and low cohesion (High LCOM) values point to potential Inappropriate Intimacy by indicating strong interdependencies and scattered responsibilities.
 The high WMC(Weighted Methods per Class) and high RFC(Response for a Class) suggest Long Method issues, as they reflect classes with complex methods that could be simplified .Also I want to say that the graph shows that there might be a lot of code smells related to the CBO metric since it’s extreme bar is very high compared to the others. 
+
+Relation with the identified code smells:
+I found the Inaproppriate Intimacy code smell because of the collected code metrics, the metric CBO(Coupling Between Objects ) was way higher in the class ToolCommands compared to the average number between all classes.
+I found the Long method code smell with the collected code metrics because the value of the WMC( Weighted Method Count ) metric was almost double the avarage class value, so for me it was a clue that it could be a code smell.
