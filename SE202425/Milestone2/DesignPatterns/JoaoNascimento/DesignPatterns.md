@@ -18,7 +18,7 @@ Class diagram: ![image](https://github.com/user-attachments/assets/6dbab472-6290
 
 Location on code base: WorldEditPrivate\worldedit-core\src\main\java\com\sk89q\worldedit\registry\state
 
-Discussion of the rationale for identifying: 
+Discussion of the rationale for identifying: Using the Template Method in AbstractProperty is crucial to ensure consistency, common code reusability, and extensibility when dealing with different types of properties. This results in a more robust, scalable, and maintainable design, allowing new types of properties to be easily added to the system without breaking or duplicating existing logic.
 
 -----------------------------------------------------------------------------------------------------------
 
