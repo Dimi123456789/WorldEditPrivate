@@ -25,3 +25,4 @@ expand the selected are vertically until it hits the sky limit.
 / Main actor: Player Secondary actor: None
 
 Use Case Diagram:
+![Captura de Ecrã (49)](https://github.com/user-attachments/assets/1389666e-520e-4e92-8eee-4be040c310b7)
