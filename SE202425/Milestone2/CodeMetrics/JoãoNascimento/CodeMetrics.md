@@ -1,6 +1,3 @@
-Metrics set used:
-
-
 CCC (Classic Cyclomatic Complexity): Measures the cyclomatic complexity of a class (loops and conditions).
 High CCC values may lead to a class with very long methods with many conditions and loops, leading to a possible God Class or very long methods code smell.
 
