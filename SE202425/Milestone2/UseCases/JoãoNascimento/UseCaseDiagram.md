@@ -1,4 +1,4 @@
-/wand (pos 1 coords) ()
+/wand
 
 Use Case Name: Get wand
 
@@ -12,7 +12,7 @@ Secondary Actor: None
 
 /hpos1
 
-Use Case Name: Select Position 1 from targeted block
+Use Case Name: Select Position 1 from Targeted Block
 
 Description: Set position 1 to the block being targeted.
 
@@ -24,7 +24,7 @@ Secondary Actor: None
 
 /hpos2
 
-Use Case Name: Select Position 2 from targeted block
+Use Case Name: Select Position 2 from Targeted Block
 
 Description: Set position 2 to the block being targeted.
 
