@@ -58,6 +58,7 @@ Secondary Actor: None
 
 ---------------------------------------------------------------------------------------------------
 
-Use case diagram: ![image](https://github.com/user-attachments/assets/554873c4-4ce3-46d2-93c7-4b8930cbb0d0)
+Use case diagram: ![image](https://github.com/user-attachments/assets/f4f0fed2-652e-4d57-aa9b-61ee4c5e3dbf)
+
 
 
