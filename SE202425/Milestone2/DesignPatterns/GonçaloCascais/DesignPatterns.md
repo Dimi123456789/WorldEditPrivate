@@ -14,24 +14,22 @@ Discussion of the rationale for identifying: The FabricAdapter, as a Adapter pat
 It receives a World object (from the WorldEdit API) and checks if it is an instance of FabricWorld. If it is, this means that the World is already adapted for WorldEdit, and the method retrieves the original Level contained within FabricWorld.
 
 ----------------------------------------------------------------------------------------------------
-Iterator Pattern
+Template Pattern
 
 Code snippet:
 
-![image](https://github.com/user-attachments/assets/39203809-1a98-45ad-a05b-73c2b9460d06)
-
-![image](https://github.com/user-attachments/assets/2ecf7636-4084-4c18-956b-f2267ef3a47b)
+![image](https://github.com/user-attachments/assets/caddd645-56ee-4f6c-874e-bd34b4797c82)
+![image](https://github.com/user-attachments/assets/87cdc318-b70c-4d76-946c-934c8b1e33f5)
 
 
 Class diagram:
 
-![image](https://github.com/user-attachments/assets/83561090-9ce3-46dd-937c-294abb0243a3)
+![image](https://github.com/user-attachments/assets/f1c05160-a26e-4554-aad6-57c90ddede17)
 
-Exact location: WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/regions
-/Polygonal2DRegion.java and
-WorldEditPrivate/worldedit-core/src/main/java/com/sk89q/worldedit/regions/iterator/FlatRegion3DIterator.java
 
-Discussion of the rationale for identifying: The Polygonal2DRegion class contains a list of points in a polygonal region, represented as BlockVector3. For users of this class, the internal structure of the points, their storage, or the details of each coordinate's calculation are not directly exposed. Instead, the iterator() method returns an iterator (FlatRegion3DIterator) that encapsulates the logic for navigating through the 3D points. This level of abstraction is a central characteristic of the Iterator Pattern.
+Exact location: worldedit-core/src/main/java/com/sk89q/worldedit/extent/AbstractDelegateExtent
+
+Discussion of the rationale for identifying: Using the Template Method in AbstractDelegateExtent is crucial to ensure consistency, common code reusability, and extensibility when dealing with different types of properties. This results in a more robust, scalable, and maintainable design, allowing new types of properties to be easily added to the system without breaking or duplicating existing logic.
 
 
 --------------------------------------------------------------------------------------------------------
