@@ -631,17 +631,10 @@ public class RegionCommands {
         System.out.println("testing2 " + effect);
         int valueToReturn = 0;
 
-        if(effect.equals("minecraft:sand")) {
+        if(effect.toString().equals("minecraft:sand")) {
             System.out.println("entrou minecraft:sand");
            replace(actor, editSession, region, from, effect);
         }
-        if(effect.equals("sand")) {
-            System.out.println("entrou sand");
-            replace(actor, editSession, region, from, effect);
-        }
-
-        replace(actor, editSession, region, from, effect);
-
 
         return 0;
     }
