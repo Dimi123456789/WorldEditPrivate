@@ -36,11 +36,9 @@ import com.sk89q.worldedit.function.RegionMaskingFilter;
 import com.sk89q.worldedit.function.block.ApplySideEffect;
 import com.sk89q.worldedit.function.block.BlockReplace;
 import com.sk89q.worldedit.function.generator.FloraGenerator;
-import com.sk89q.worldedit.function.mask.ExistingBlockMask;
-import com.sk89q.worldedit.function.mask.Mask;
-import com.sk89q.worldedit.function.mask.MaskIntersection;
-import com.sk89q.worldedit.function.mask.NoiseFilter2D;
+import com.sk89q.worldedit.function.mask.*;
 import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.function.pattern.BiomePattern;
 import com.sk89q.worldedit.function.pattern.Pattern;
 import com.sk89q.worldedit.function.visitor.LayerVisitor;
 import com.sk89q.worldedit.function.visitor.RegionVisitor;
@@ -66,14 +64,15 @@ import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import com.sk89q.worldedit.util.formatting.text.TranslatableComponent;
 import com.sk89q.worldedit.world.RegenOptions;
 import com.sk89q.worldedit.world.World;
+import com.sk89q.worldedit.world.block.BaseBlock;
+import com.sk89q.worldedit.world.block.BlockTypes;
 import org.enginehub.piston.annotation.Command;
 import org.enginehub.piston.annotation.CommandContainer;
 import org.enginehub.piston.annotation.param.Arg;
 import org.enginehub.piston.annotation.param.ArgFlag;
 import org.enginehub.piston.annotation.param.Switch;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.sk89q.worldedit.command.util.Logging.LogMode.ALL;
 import static com.sk89q.worldedit.command.util.Logging.LogMode.ORIENTATION_REGION;
@@ -201,6 +200,7 @@ public class RegionCommands {
         if (from == null) {
             from = new ExistingBlockMask(editSession);
         }
+        System.out.println("Block to be replaced: " + from);
         int affected = editSession.replaceBlocks(region, from, to);
         actor.printInfo(TranslatableComponent.of("worldedit.replace.replaced", TextComponent.of(affected)));
         return affected;
@@ -612,5 +612,43 @@ public class RegionCommands {
         Operations.complete(visitor);
 
         actor.printInfo(TranslatableComponent.of("worldedit.update"));
+    }
+
+    @Command(
+            name = "/weather",
+            desc = "Transforms the blocks in the region to the corresponding weather condition"
+    )
+    @CommandPermissions("worldedit.region.weather")
+    @Logging(REGION)
+    public int weather(Actor actor, EditSession editSession,
+                   @Selection Region region,
+                       @Arg(desc = "temporario para testes")
+                           Mask  from,
+                   @Arg(desc = "The type of effect we want to apply")
+                       Pattern  effect) throws WorldEditException{
+
+
+        System.out.println("testing2 " + effect);
+        int valueToReturn = 0;
+
+        if(effect.equals("minecraft:sand")) {
+            System.out.println("entrou minecraft:sand");
+           replace(actor, editSession, region, from, effect);
+        }
+        if(effect.equals("sand")) {
+            System.out.println("entrou sand");
+            replace(actor, editSession, region, from, effect);
+        }
+
+        replace(actor, editSession, region, from, effect);
+
+
+        return 0;
+    }
+
+    private enum WeatherEffect {
+        RAIN,
+        SNOW,
+        DROUGHT
     }
 }
