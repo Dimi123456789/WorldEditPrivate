@@ -66,6 +66,7 @@ import com.sk89q.worldedit.world.RegenOptions;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.block.BaseBlock;
 import com.sk89q.worldedit.world.block.BlockTypes;
+import com.sk89q.worldedit.world.gamemode.GameMode;
 import org.enginehub.piston.annotation.Command;
 import org.enginehub.piston.annotation.CommandContainer;
 import org.enginehub.piston.annotation.param.Arg;
@@ -200,7 +201,6 @@ public class RegionCommands {
         if (from == null) {
             from = new ExistingBlockMask(editSession);
         }
-        System.out.println("Block to be replaced: " + from);
         int affected = editSession.replaceBlocks(region, from, to);
         actor.printInfo(TranslatableComponent.of("worldedit.replace.replaced", TextComponent.of(affected)));
         return affected;
@@ -622,21 +622,16 @@ public class RegionCommands {
     @Logging(REGION)
     public int weather(Actor actor, EditSession editSession,
                    @Selection Region region,
-                       @Arg(desc = "temporario para testes")
-                           Mask  from,
                    @Arg(desc = "The type of effect we want to apply")
-                       Pattern  effect) throws WorldEditException{
+                       String  effect
+                       ) throws WorldEditException{
 
 
-        System.out.println("testing2 " + effect);
-        int valueToReturn = 0;
+        int affected = editSession.weatherDroughtEffect(region);
+      //  actor.printInfo(TranslatableComponent.of("worldedit.naturalize.naturalized", TextComponent.of(affected)));
 
-        if(effect.toString().equals("minecraft:sand")) {
-            System.out.println("entrou minecraft:sand");
-           replace(actor, editSession, region, from, effect);
-        }
-
-        return 0;
+        System.out.println(effect);
+        return affected;
     }
 
     private enum WeatherEffect {

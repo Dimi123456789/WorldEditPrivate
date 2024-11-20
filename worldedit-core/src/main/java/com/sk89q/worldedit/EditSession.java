@@ -48,11 +48,7 @@ import com.sk89q.worldedit.extent.world.WatchdogTickingExtent;
 import com.sk89q.worldedit.function.GroundFunction;
 import com.sk89q.worldedit.function.RegionMaskingFilter;
 import com.sk89q.worldedit.function.biome.BiomeReplace;
-import com.sk89q.worldedit.function.block.BlockDistributionCounter;
-import com.sk89q.worldedit.function.block.BlockReplace;
-import com.sk89q.worldedit.function.block.Counter;
-import com.sk89q.worldedit.function.block.Naturalizer;
-import com.sk89q.worldedit.function.block.SnowSimulator;
+import com.sk89q.worldedit.function.block.*;
 import com.sk89q.worldedit.function.generator.ForestGenerator;
 import com.sk89q.worldedit.function.generator.GardenPatchGenerator;
 import com.sk89q.worldedit.function.mask.BlockMask;
@@ -2960,6 +2956,8 @@ public class EditSession implements Extent, AutoCloseable {
         return changed;
     }
 
+
+
     private static final BlockVector3[] recurseDirections = {
             Direction.NORTH.toBlockVector(),
             Direction.EAST.toBlockVector(),
@@ -2977,4 +2975,13 @@ public class EditSession implements Extent, AutoCloseable {
         return (x * x) + (z * z);
     }
 
+    public int weatherDroughtEffect(Region region) throws MaxChangedBlocksException {
+        checkNotNull(region);
+
+        DroughtEffect testing = new DroughtEffect(this);
+        FlatRegion flatRegion = Regions.asFlatRegion(region);
+        LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), testing);
+        Operations.completeLegacy(visitor);
+        return testing.getAffected();
+    }
 }
