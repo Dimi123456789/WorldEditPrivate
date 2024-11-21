@@ -626,11 +626,20 @@ public class RegionCommands {
                        String  effect
                        ) throws WorldEditException{
 
+        int affected = 0;
 
-        int affected = editSession.weatherDroughtEffect(region);
-      //  actor.printInfo(TranslatableComponent.of("worldedit.naturalize.naturalized", TextComponent.of(affected)));
+        if(effect.toUpperCase().equals(WeatherEffect.DROUGHT.toString())) {
+            affected = editSession.weatherDroughtEffect(region);
+            //  actor.printInfo(TranslatableComponent.of("worldedit.naturalize.naturalized", TextComponent.of(affected)));
+            System.out.println(effect.toUpperCase());
+        }else  if(effect.toUpperCase().equals(WeatherEffect.RAIN.toString())) {
+            System.out.println(effect.toUpperCase());
+        } else  if(effect.toUpperCase().equals(WeatherEffect.SNOW.toString())) {
+            System.out.println(effect.toUpperCase());
+        }else{
+            System.out.println("Invalid effect.Available effects: " + WeatherEffect.DROUGHT + " | "+ WeatherEffect.RAIN+ " | "+ WeatherEffect.SNOW);
+        }
 
-        System.out.println(effect);
         return affected;
     }
 

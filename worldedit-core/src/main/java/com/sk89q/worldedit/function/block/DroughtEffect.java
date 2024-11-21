@@ -26,6 +26,7 @@ import com.sk89q.worldedit.function.mask.BlockTypeMask;
 import com.sk89q.worldedit.function.mask.Mask;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
+import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -49,7 +50,7 @@ public class DroughtEffect implements LayerFunction {
         this.editSession = editSession;
         this.mask = new BlockTypeMask(editSession, BlockTypes.GRASS_BLOCK, BlockTypes.SHORT_GRASS,BlockTypes.POPPY,BlockTypes.FARMLAND,
                 BlockTypes.FLOWERING_AZALEA_LEAVES,BlockTypes.WATER,BlockTypes.ICE,BlockTypes.SNOW_BLOCK, BlockTypes.CLAY,
-                BlockTypes.STONE,BlockTypes.STONE_SLAB);
+                BlockTypes.STONE,BlockTypes.STONE_SLAB, BlockTypes.CHERRY_LEAVES);
     }
 
     /**
@@ -68,29 +69,19 @@ public class DroughtEffect implements LayerFunction {
 
     private BlockState getTargetBlock(BlockState currentBlock) {
 
-        // Natureza
+
         if (currentBlock.getBlockType() == BlockTypes.GRASS_BLOCK) {
-            return BlockTypes.DIRT_PATH.getDefaultState();
+            return BlockTypes.DIRT.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.SHORT_GRASS) {
             return BlockTypes.DEAD_BUSH.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.POPPY) {
             return BlockTypes.WITHER_ROSE.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.FARMLAND) {
-            return BlockTypes.DIRT.getDefaultState(); // Solo cultivado volta a ser terra
-
+            return BlockTypes.DIRT_PATH.getDefaultState();
         }else if (currentBlock.getBlockType() == BlockTypes.FLOWERING_AZALEA_LEAVES) {
             return BlockTypes.AZALEA_LEAVES.getDefaultState();
-            // Água
-        } else if (currentBlock.getBlockType() == BlockTypes.WATER) {
-            return BlockTypes.AIR.getDefaultState();
-        } else if (currentBlock.getBlockType() == BlockTypes.ICE) {
-            return BlockTypes.AIR.getDefaultState();
-        } else if (currentBlock.getBlockType() == BlockTypes.SNOW_BLOCK) {
-            return BlockTypes.AIR.getDefaultState();
-            // Solo
         } else if (currentBlock.getBlockType() == BlockTypes.CLAY) {
             return BlockTypes.TERRACOTTA.getDefaultState();
-            // Construções
         }  else if (currentBlock.getBlockType() == BlockTypes.STONE) {
             return BlockTypes.SANDSTONE.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.STONE_SLAB) {

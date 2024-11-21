@@ -2978,10 +2978,10 @@ public class EditSession implements Extent, AutoCloseable {
     public int weatherDroughtEffect(Region region) throws MaxChangedBlocksException {
         checkNotNull(region);
 
-        DroughtEffect testing = new DroughtEffect(this);
+        DroughtEffect droughtEffect = new DroughtEffect(this);
         FlatRegion flatRegion = Regions.asFlatRegion(region);
-        LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), testing);
+        LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), droughtEffect);
         Operations.completeLegacy(visitor);
-        return testing.getAffected();
+        return droughtEffect.getAffected();
     }
 }
