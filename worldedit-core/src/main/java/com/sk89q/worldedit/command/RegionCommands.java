@@ -635,6 +635,7 @@ public class RegionCommands {
         }else  if(effect.toUpperCase().equals(WeatherEffect.RAIN.toString())) {
             System.out.println(effect.toUpperCase());
         } else  if(effect.toUpperCase().equals(WeatherEffect.SNOW.toString())) {
+            affected = editSession.weatherSnowEffect(region);
             System.out.println(effect.toUpperCase());
         }else{
             System.out.println("Invalid effect.Available effects: " + WeatherEffect.DROUGHT + " | "+ WeatherEffect.RAIN+ " | "+ WeatherEffect.SNOW);

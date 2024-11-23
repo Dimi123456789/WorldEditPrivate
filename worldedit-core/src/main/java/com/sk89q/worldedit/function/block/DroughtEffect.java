@@ -92,11 +92,11 @@ public class DroughtEffect implements LayerFunction {
 
     }
 
-    private boolean naturalize(BlockVector3 position, int depth) throws WorldEditException {
+    private boolean applyDryEffect(BlockVector3 position, int depth) throws WorldEditException {
         BlockState currentBlock  = editSession.getBlock(position);
         BlockState targetBlock = getTargetBlock(currentBlock );
 
-        if (currentBlock .equalsFuzzy(targetBlock)) {
+        if (currentBlock.equalsFuzzy(targetBlock)) {
             return false;
         }
 
@@ -106,7 +106,7 @@ public class DroughtEffect implements LayerFunction {
     @Override
     public boolean apply(BlockVector3 position, int depth) throws WorldEditException {
         if (mask.test(position)) {
-            if (naturalize(position, depth)) {
+            if (applyDryEffect(position, depth)) {
                 ++affected;
             }
         }

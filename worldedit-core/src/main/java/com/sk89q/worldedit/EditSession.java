@@ -49,6 +49,7 @@ import com.sk89q.worldedit.function.GroundFunction;
 import com.sk89q.worldedit.function.RegionMaskingFilter;
 import com.sk89q.worldedit.function.biome.BiomeReplace;
 import com.sk89q.worldedit.function.block.*;
+import com.sk89q.worldedit.function.factory.Snow;
 import com.sk89q.worldedit.function.generator.ForestGenerator;
 import com.sk89q.worldedit.function.generator.GardenPatchGenerator;
 import com.sk89q.worldedit.function.mask.BlockMask;
@@ -2983,5 +2984,15 @@ public class EditSession implements Extent, AutoCloseable {
         LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), droughtEffect);
         Operations.completeLegacy(visitor);
         return droughtEffect.getAffected();
+    }
+
+    public int weatherSnowEffect(Region region) throws MaxChangedBlocksException {
+        checkNotNull(region);
+
+        SnowEffect snowEffect = new SnowEffect(this);
+        FlatRegion flatRegion = Regions.asFlatRegion(region);
+        LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), snowEffect);
+        Operations.completeLegacy(visitor);
+        return snowEffect.getAffected();
     }
 }
