@@ -511,17 +511,12 @@ public class GenerationCommands {
         context.setSession(session);
         Pattern airPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:air", context);
 
-
-        int affected = createHole(actor, session, editSession, pos, airPattern, radiusX, radiusY, radiusZ);
-
-        return affected;
-
-
+        return createHole(actor, session, editSession, pos, airPattern, radiusX, radiusY, radiusZ);
 
     }
 
     private int createHole(Actor actor, LocalSession session, EditSession editSession, BlockVector3 pos, Pattern pattern, Double radiusX, Double radiusY, Double radiusZ)
-            throws MaxChangedBlocksException, InputParseException, IncompleteRegionException, MaxRadiusException {
+            throws MaxChangedBlocksException, InputParseException, MaxRadiusException {
 
         int prevAffected = 0;
         Random rand = new Random();
@@ -546,18 +541,16 @@ public class GenerationCommands {
             double randomRadiusZ = radiusZ + (rand.nextDouble() * 10.0 - 5.0);
 
             affected = editSession.makeSphere(newPos, pattern, randomRadiusX, randomRadiusY, randomRadiusZ, true);
-
             prevAffected += affected;
         }
-
+        editSession.close();
 
         BlockVector3 waterPos = pos.add(0,-1,0);
-        System.out.println(waterPos);
-        double rad = 20.0;
+        double rad = radiusX * 10.0;
         worldEdit.checkMaxRadius(rad);
-        int affected = editSession.fillXZ(waterPos, waterPattern, rad, 2147483647, true);
+        int affected = editSession.fillXZ(waterPos, waterPattern, rad, 1, false);
 
-
+        prevAffected += affected;
         return prevAffected;
     }
 
