@@ -525,7 +525,7 @@ public class GenerationCommands {
         context.setSession(session);
         Pattern waterPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:water[level=0]", context);
 
-        double adjustmentFactor = 1.1;
+        final double adjustmentFactor = 1.1;
         int[][] displacements = {
                 {(int)(radiusX * adjustmentFactor), 0, 0},
                 {-(int)(radiusX * adjustmentFactor), 0, 0},
