@@ -28,6 +28,9 @@
         import com.sk89q.worldedit.world.block.BlockState;
         import com.sk89q.worldedit.world.block.BlockType;
         import com.sk89q.worldedit.world.block.BlockTypes;
+        import org.mozilla.javascript.ast.Block;
+
+        import java.util.Random;
 
         import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -36,9 +39,12 @@
          */
         public class SnowEffect implements LayerFunction {
 
+            private static final double ICE_PERCENTAGE = 0.3;
+
             private final EditSession editSession;
             private final Mask mask;
             private int affected = 0;
+            private final Random random;
 
             /**
              * Make a new DroughtEffect object.
@@ -48,7 +54,8 @@
             public SnowEffect(EditSession editSession) {
                 checkNotNull(editSession);
                 this.editSession = editSession;
-                this.mask = new BlockTypeMask(editSession, BlockTypes.GRASS_BLOCK);
+                this.mask = new BlockTypeMask(editSession, BlockTypes.CHERRY_LOG, BlockTypes.SPRUCE_STAIRS);
+                this.random = new Random();
             }
 
             /**
@@ -65,18 +72,50 @@
                 return mask.test(position);
             }
 
-            private BlockState getTargetBlock(BlockState currentBlock) {
 
+            /**
+             * adds blocks on top of the ceiling and changes the wood type
+             *
+             * @return the current block to be returned
+             */
+            private BlockState getTargetBlock(BlockState currentBlock, BlockVector3 position) throws WorldEditException {
 
-                if (currentBlock.getBlockType() == BlockTypes.GRASS_BLOCK)
-                    return BlockTypes.SNOW_BLOCK.getDefaultState();
-                else
-                    return currentBlock;
+                if (currentBlock.getBlockType() == BlockTypes.CHERRY_LOG) {
+                    return BlockTypes.STRIPPED_WARPED_STEM.getDefaultState();
+                } else if (currentBlock.getBlockType() == BlockTypes.SPRUCE_STAIRS ) {
+                    addBlockAbove(position, BlockTypes.SNOW_BLOCK.getDefaultState());
+                }
+                return currentBlock;
             }
 
+            /**
+             * adds blocks 1 layer above other blocks
+             *
+             *
+             */
+            private void addBlockAbove(BlockVector3 position, BlockState choosenBlock)throws  WorldEditException {
+                BlockVector3 abovePosition = position.add(0, 1, 0);
+                BlockState aboveBlock = editSession.getBlock(abovePosition);
+
+                // Somente adiciona neve se o bloco acima estiver vazio
+                if (aboveBlock.getBlockType() == BlockTypes.AIR ) {
+                    editSession.setBlock(abovePosition, choosenBlock.getBlockType().getDefaultState());
+                }
+            }
+
+            /**
+             * applys the snow effect to the selected building
+             *
+             * @return the affected blocks
+             */
             private boolean applySnowEffect(BlockVector3 position, int depth) throws WorldEditException {
                 BlockState currentBlock  = editSession.getBlock(position);
-                BlockState targetBlock = getTargetBlock(currentBlock );
+                BlockState targetBlock = getTargetBlock(currentBlock, position );
+
+                if (random.nextDouble() < ICE_PERCENTAGE) {
+                    addBlockAbove(position, BlockTypes.ICE.getDefaultState());
+
+                }
 
                 if (currentBlock.equalsFuzzy(targetBlock)) {
                     return false;
