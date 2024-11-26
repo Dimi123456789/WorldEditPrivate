@@ -2993,6 +2993,7 @@ public class EditSession implements Extent, AutoCloseable {
         FlatRegion flatRegion = Regions.asFlatRegion(region);
         LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), snowEffect);
         Operations.completeLegacy(visitor);
+        simulateSnow(flatRegion,true);
         return snowEffect.getAffected();
     }
 }
