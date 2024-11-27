@@ -2989,11 +2989,14 @@ public class EditSession implements Extent, AutoCloseable {
     public int weatherSnowEffect(Region region) throws MaxChangedBlocksException {
         checkNotNull(region);
 
+        int affectdBlocks = 0;
+
         SnowEffect snowEffect = new SnowEffect(this);
         FlatRegion flatRegion = Regions.asFlatRegion(region);
         LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), snowEffect);
+        affectdBlocks += snowEffect.getAffected();
+        affectdBlocks += simulateSnow(flatRegion,true);
         Operations.completeLegacy(visitor);
-        simulateSnow(flatRegion,true);
-        return snowEffect.getAffected();
+        return affectdBlocks;
     }
 }

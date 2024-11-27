@@ -39,7 +39,7 @@
          */
         public class SnowEffect implements LayerFunction {
 
-            private static final double ICE_PERCENTAGE = 0.3;
+            private static final double ICE_PERCENTAGE = 0.2;
 
             private final EditSession editSession;
             private final Mask mask;
@@ -54,7 +54,8 @@
             public SnowEffect(EditSession editSession) {
                 checkNotNull(editSession);
                 this.editSession = editSession;
-                this.mask = new BlockTypeMask(editSession, BlockTypes.CHERRY_LOG, BlockTypes.SPRUCE_STAIRS);
+                this.mask = new BlockTypeMask(editSession, BlockTypes.CHERRY_LOG, BlockTypes.SPRUCE_STAIRS,
+                        BlockTypes.GRASS_BLOCK, BlockTypes.CHERRY_LEAVES, BlockTypes.DARK_OAK_STAIRS);
                 this.random = new Random();
             }
 
@@ -82,7 +83,7 @@
 
                 if (currentBlock.getBlockType() == BlockTypes.CHERRY_LOG) {
                     return BlockTypes.STRIPPED_WARPED_STEM.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.SPRUCE_STAIRS ) {
+                } else if (currentBlock.getBlockType() == BlockTypes.SPRUCE_STAIRS || currentBlock.getBlockType() == BlockTypes.DARK_OAK_STAIRS) {
                     addBlockAbove(position, BlockTypes.SNOW_BLOCK.getDefaultState());
                 }
                 return currentBlock;
@@ -113,7 +114,7 @@
                 BlockState targetBlock = getTargetBlock(currentBlock, position );
 
                 if (random.nextDouble() < ICE_PERCENTAGE) {
-                    addBlockAbove(position, BlockTypes.ICE.getDefaultState());
+                    addBlockAbove(position, BlockTypes.BLUE_ICE.getDefaultState());
 
                 }
 
