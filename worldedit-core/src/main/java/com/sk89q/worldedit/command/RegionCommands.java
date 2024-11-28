@@ -83,6 +83,7 @@ import static com.sk89q.worldedit.regions.Regions.asFlatRegion;
 import static com.sk89q.worldedit.regions.Regions.maximumBlockY;
 import static com.sk89q.worldedit.regions.Regions.minimumBlockY;
 
+
 /**
  * Commands that operate on regions.
  */
@@ -627,18 +628,15 @@ public class RegionCommands {
                        ) throws WorldEditException{
 
         int affected = 0;
+        WeatherEffect weatherEffect = WeatherEffect.valueOf(effect.toUpperCase());
 
-        if(effect.toUpperCase().equals(WeatherEffect.DROUGHT.toString())) {
-            affected = editSession.weatherDroughtEffect(region);
-            //  actor.printInfo(TranslatableComponent.of("worldedit.naturalize.naturalized", TextComponent.of(affected)));
-            System.out.println(effect.toUpperCase());
-        }else  if(effect.toUpperCase().equals(WeatherEffect.RAIN.toString())) {
-            System.out.println(effect.toUpperCase());
-        } else  if(effect.toUpperCase().equals(WeatherEffect.SNOW.toString())) {
-            affected = editSession.weatherSnowEffect(region);
-            System.out.println(effect.toUpperCase());
-        }else{
-            System.out.println("Invalid effect.Available effects: " + WeatherEffect.DROUGHT + " | "+ WeatherEffect.RAIN+ " | "+ WeatherEffect.SNOW);
+        switch (weatherEffect) {
+            case DROUGHT ->  {affected = editSession.weatherDroughtEffect(region);
+            actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.drought", TextComponent.of(affected).color()));}
+            case RAIN -> System.out.println("Teste chuva");
+            case SNOW ->{  affected = editSession.weatherSnowEffect(region);
+                actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.snow", TextComponent.of(affected)));}
+            default ->  actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.invalidArgument", TextComponent.of(affected)));
         }
 
         return affected;
@@ -647,6 +645,6 @@ public class RegionCommands {
     private enum WeatherEffect {
         RAIN,
         SNOW,
-        DROUGHT
+        DROUGHT,
     }
 }
