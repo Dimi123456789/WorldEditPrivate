@@ -24,10 +24,12 @@
         import com.sk89q.worldedit.function.LayerFunction;
         import com.sk89q.worldedit.function.mask.*;
         import com.sk89q.worldedit.math.BlockVector3;
+        import com.sk89q.worldedit.world.biome.BiomeTypes;
         import com.sk89q.worldedit.world.block.BlockCategories;
         import com.sk89q.worldedit.world.block.BlockState;
         import com.sk89q.worldedit.world.block.BlockType;
         import com.sk89q.worldedit.world.block.BlockTypes;
+        import com.sk89q.worldedit.world.weather.WeatherTypes;
         import org.mozilla.javascript.ast.Block;
 
         import java.util.Random;
@@ -129,6 +131,9 @@
                         ++affected;
                     }
                 }
+
+                editSession.setBiome(position, BiomeTypes.SNOWY_BEACH);
+                editSession.getWorld().setWeather(WeatherTypes.RAIN);
 
                 return true;
             }

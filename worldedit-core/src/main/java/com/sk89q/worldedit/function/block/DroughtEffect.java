@@ -24,7 +24,9 @@ import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.LayerFunction;
 import com.sk89q.worldedit.function.mask.*;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.world.biome.BiomeTypes;
 import com.sk89q.worldedit.world.block.*;
+import com.sk89q.worldedit.world.weather.WeatherTypes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -111,6 +113,8 @@ public class DroughtEffect implements LayerFunction {
                 ++affected;
             }
         }
+        editSession.setBiome(position, BiomeTypes.DESERT);
+        editSession.getWorld().setWeather(WeatherTypes.CLEAR);
 
         return true;
     }
