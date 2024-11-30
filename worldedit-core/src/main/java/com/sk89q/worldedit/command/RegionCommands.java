@@ -636,6 +636,8 @@ public class RegionCommands {
             case RAIN -> System.out.println("Teste chuva");
             case SNOW ->{  affected = editSession.weatherSnowEffect(region);
                 actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.snow", TextComponent.of(affected)));}
+            case HELL -> {affected = editSession.weatherHellEffect(region);
+                actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.hell", TextComponent.of(affected).color()));}
             default ->  actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.invalidArgument", TextComponent.of(affected)));
         }
 
@@ -646,5 +648,6 @@ public class RegionCommands {
         RAIN,
         SNOW,
         DROUGHT,
+        HELL,
     }
 }
