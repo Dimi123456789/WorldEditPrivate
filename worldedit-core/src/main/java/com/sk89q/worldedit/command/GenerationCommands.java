@@ -19,14 +19,14 @@
 
 package com.sk89q.worldedit.command;
 
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.WorldEditException;
+import java.util.Random;
+import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.command.util.CommandPermissions;
 import com.sk89q.worldedit.command.util.CommandPermissionsConditionGenerator;
 import com.sk89q.worldedit.command.util.Logging;
 import com.sk89q.worldedit.entity.Player;
+import com.sk89q.worldedit.extension.input.InputParseException;
+import com.sk89q.worldedit.extension.input.ParserContext;
 import com.sk89q.worldedit.extension.platform.Actor;
 import com.sk89q.worldedit.function.pattern.Pattern;
 import com.sk89q.worldedit.internal.annotation.Radii;
@@ -39,8 +39,10 @@ import com.sk89q.worldedit.util.TreeGenerator.TreeType;
 import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import com.sk89q.worldedit.util.formatting.text.TranslatableComponent;
 import com.sk89q.worldedit.world.biome.BiomeType;
+import com.sk89q.worldedit.world.block.BlockTypes;
 import com.sk89q.worldedit.world.generation.ConfiguredFeatureType;
 import com.sk89q.worldedit.world.generation.StructureType;
+
 import org.enginehub.piston.annotation.Command;
 import org.enginehub.piston.annotation.CommandContainer;
 import org.enginehub.piston.annotation.param.Arg;
@@ -484,5 +486,76 @@ public class GenerationCommands {
             return 0;
         }
     }
+
+
+    @Command(
+            name = "/lake",
+            desc = "Generates a lake."
+    )
+    @CommandPermissions("worldedit.generation.lake")
+    @Logging(PLACEMENT)
+    public int lake(Actor actor, LocalSession session, EditSession editSession,
+                      @Arg(desc = "The lake dimension")
+                      @Radii(3)
+                      List<Double> radii) throws WorldEditException {
+        double radiusX;
+        double radiusY;
+        double radiusZ;
+
+        radiusX = radiusY = radiusZ = Math.max(0, radii.get(0));
+
+        BlockVector3 pos = session.getPlacementPosition(actor);
+
+        ParserContext context = new ParserContext();
+        context.setActor(actor);
+        context.setSession(session);
+        Pattern airPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:air", context);
+
+        return createHole(actor, session, editSession, pos, airPattern, radiusX, radiusY, radiusZ);
+
+    }
+
+    private int createHole(Actor actor, LocalSession session, EditSession editSession, BlockVector3 pos, Pattern pattern, Double radiusX, Double radiusY, Double radiusZ)
+            throws MaxChangedBlocksException, InputParseException, MaxRadiusException {
+
+        int prevAffected = 0;
+        Random rand = new Random();
+        ParserContext context = new ParserContext();
+        context.setActor(actor);
+        context.setSession(session);
+        Pattern waterPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:water[level=0]", context);
+
+        final double adjustmentFactor = 1.10;
+        int[][] displacements = {
+                {(int)(radiusX * adjustmentFactor), 0, 0},
+                {-(int)(radiusX * adjustmentFactor), 0, 0},
+                {0, 0, (int)(radiusZ * adjustmentFactor)}
+        };
+
+        for (int[] displacement : displacements) {
+            int affected = 0;
+            BlockVector3 newPos = pos.add(displacement[0], displacement[1], displacement[2]);
+
+            double randomRadiusX = radiusX + (rand.nextDouble() * 10.0 - 5.0);
+            double randomRadiusY = radiusY + (rand.nextDouble() * 10.0 - 5.0);
+            double randomRadiusZ = radiusZ + (rand.nextDouble() * 10.0 - 5.0);
+
+            affected = editSession.makeSphere(newPos, pattern, randomRadiusX, randomRadiusY, randomRadiusZ, true);
+            prevAffected += affected;
+        }
+        editSession.close();
+
+        BlockVector3 waterPos = pos.add(0,-1,0);
+        double rad = radiusX * 10.0;
+        worldEdit.checkMaxRadius(rad);
+        int affected = editSession.fillXZ(waterPos, waterPattern, rad, 1, false);
+
+        prevAffected += affected;
+        return prevAffected;
+    }
+
+
+
+
 
 }
