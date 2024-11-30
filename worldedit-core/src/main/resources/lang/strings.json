@@ -485,5 +485,11 @@
 
     "worldedit.weatherCommand.drought": "Transformed the blocks to simulate a drought environment!",
     "worldedit.weatherCommand.snow": "Transformed the blocks to simulate a snowy environment!",
-    "worldedit.weatherCommand.invalidArgument": "You should choose between [drought | snow | rain | hell]"
+    "worldedit.weatherCommand.invalidArgument": "You should choose between [drought | snow | rain | hell]",
+
+    "worldedit.lake.water": "Created a lake",
+    "worldedit.lake.pond": "Created a pond",
+    "worldedit.lake.lava": "Created a lava lake",
+    "worldedit.lake.oasis": "Created an oasis",
+    "worldedit.lake.invalidArgument": "Invalid lake type, try: [water | lava | pond | oasis]"
 }
