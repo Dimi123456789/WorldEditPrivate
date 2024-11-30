@@ -116,6 +116,7 @@ import com.sk89q.worldedit.util.formatting.text.TranslatableComponent;
 import com.sk89q.worldedit.world.NullWorld;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.biome.BiomeType;
+import com.sk89q.worldedit.world.biome.BiomeTypes;
 import com.sk89q.worldedit.world.block.BaseBlock;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockStateHolder;
@@ -3000,6 +3001,7 @@ public class EditSession implements Extent, AutoCloseable {
         return affectdBlocks;
     }
 
+
     public int weatherHellEffect(Region region) throws MaxChangedBlocksException {
         checkNotNull(region);
 
@@ -3009,4 +3011,6 @@ public class EditSession implements Extent, AutoCloseable {
         Operations.completeLegacy(visitor);
         return hellEffect.getAffected();
     }
+
+
 }
