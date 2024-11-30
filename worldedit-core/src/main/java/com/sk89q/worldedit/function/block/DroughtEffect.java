@@ -47,7 +47,7 @@ public class DroughtEffect implements LayerFunction {
     public DroughtEffect(EditSession editSession) {
         checkNotNull(editSession);
         this.editSession = editSession;
-        this.mask = new MaskUnion(new BlockTypeMask(editSession, BlockTypes.SHORT_GRASS, BlockTypes.FARMLAND,BlockTypes.CLAY,BlockTypes.STONE,BlockTypes.COBBLESTONE) ,
+        this.mask = new MaskUnion(new BlockTypeMask(editSession, BlockTypes.SHORT_GRASS, BlockTypes.FARMLAND,BlockTypes.CLAY,BlockTypes.STONE,BlockTypes.COBBLESTONE,BlockTypes.WATER) ,
             new BlockCategoryMask(editSession, BlockCategories.LEAVES), new BlockCategoryMask(editSession, BlockCategories.FLOWERS),
                 new BlockCategoryMask(editSession, BlockCategories.DIRT), new BlockCategoryMask(editSession, BlockCategories.STONE_BRICKS),
                 new BlockCategoryMask(editSession, BlockCategories.SLABS),new BlockCategoryMask(editSession, BlockCategories.ICE),new BlockCategoryMask(editSession, BlockCategories.SNOW));
