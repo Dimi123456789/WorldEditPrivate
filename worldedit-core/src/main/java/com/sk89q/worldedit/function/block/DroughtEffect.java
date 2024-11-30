@@ -22,12 +22,11 @@
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.LayerFunction;
-import com.sk89q.worldedit.function.mask.BlockTypeMask;
-import com.sk89q.worldedit.function.mask.Mask;
+import com.sk89q.worldedit.function.mask.*;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.world.block.BlockState;
-import com.sk89q.worldedit.world.block.BlockType;
-import com.sk89q.worldedit.world.block.BlockTypes;
+import com.sk89q.worldedit.world.biome.BiomeTypes;
+import com.sk89q.worldedit.world.block.*;
+import com.sk89q.worldedit.world.weather.WeatherTypes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -48,9 +47,10 @@ public class DroughtEffect implements LayerFunction {
     public DroughtEffect(EditSession editSession) {
         checkNotNull(editSession);
         this.editSession = editSession;
-        this.mask = new BlockTypeMask(editSession, BlockTypes.GRASS_BLOCK, BlockTypes.SHORT_GRASS,BlockTypes.POPPY,BlockTypes.FARMLAND,
-                BlockTypes.FLOWERING_AZALEA_LEAVES,BlockTypes.WATER,BlockTypes.ICE,BlockTypes.SNOW_BLOCK, BlockTypes.CLAY,
-                BlockTypes.STONE,BlockTypes.STONE_SLAB, BlockTypes.CHERRY_LEAVES);
+        this.mask = new MaskUnion(new BlockTypeMask(editSession, BlockTypes.SHORT_GRASS, BlockTypes.FARMLAND,BlockTypes.CLAY,BlockTypes.STONE,BlockTypes.COBBLESTONE) ,
+            new BlockCategoryMask(editSession, BlockCategories.LEAVES), new BlockCategoryMask(editSession, BlockCategories.FLOWERS),
+                new BlockCategoryMask(editSession, BlockCategories.DIRT), new BlockCategoryMask(editSession, BlockCategories.STONE_BRICKS),
+                new BlockCategoryMask(editSession, BlockCategories.SLABS),new BlockCategoryMask(editSession, BlockCategories.ICE),new BlockCategoryMask(editSession, BlockCategories.SNOW));
     }
 
     /**
@@ -70,21 +70,19 @@ public class DroughtEffect implements LayerFunction {
     private BlockState getTargetBlock(BlockState currentBlock) {
 
 
-        if (currentBlock.getBlockType() == BlockTypes.GRASS_BLOCK) {
-            return BlockTypes.DIRT.getDefaultState();
+        if (BlockCategories.DIRT.contains(currentBlock.getBlockType())) {
+            return BlockTypes.COARSE_DIRT.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.SHORT_GRASS) {
             return BlockTypes.DEAD_BUSH.getDefaultState();
-        } else if (currentBlock.getBlockType() == BlockTypes.POPPY) {
+        } else if (BlockCategories.FLOWERS.contains(currentBlock.getBlockType()) && currentBlock.getBlockType() != BlockTypes.CHERRY_LEAVES && currentBlock.getBlockType() != BlockTypes.FLOWERING_AZALEA_LEAVES) {
             return BlockTypes.WITHER_ROSE.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.FARMLAND) {
             return BlockTypes.DIRT_PATH.getDefaultState();
-        }else if (currentBlock.getBlockType() == BlockTypes.FLOWERING_AZALEA_LEAVES) {
-            return BlockTypes.AZALEA_LEAVES.getDefaultState();
         } else if (currentBlock.getBlockType() == BlockTypes.CLAY) {
             return BlockTypes.TERRACOTTA.getDefaultState();
-        }  else if (currentBlock.getBlockType() == BlockTypes.STONE) {
-            return BlockTypes.SANDSTONE.getDefaultState();
-        } else if (currentBlock.getBlockType() == BlockTypes.STONE_SLAB) {
+        }  else if (BlockCategories.STONE_BRICKS.contains(currentBlock.getBlockType()) || currentBlock.getBlockType() == BlockTypes.STONE || currentBlock.getBlockType() == BlockTypes.COBBLESTONE) {
+            return BlockTypes.END_STONE_BRICKS.getDefaultState();
+        } else if (BlockCategories.SLABS.contains(currentBlock.getBlockType())) {
             return BlockTypes.SANDSTONE_SLAB.getDefaultState();
         }else{
             return BlockTypes.AIR.getDefaultState();
@@ -92,6 +90,11 @@ public class DroughtEffect implements LayerFunction {
 
     }
 
+    /**
+     * applys the drought effect to the selected building
+     *
+     * @return the affected blocks
+     */
     private boolean applyDryEffect(BlockVector3 position, int depth) throws WorldEditException {
         BlockState currentBlock  = editSession.getBlock(position);
         BlockState targetBlock = getTargetBlock(currentBlock );
@@ -110,6 +113,8 @@ public class DroughtEffect implements LayerFunction {
                 ++affected;
             }
         }
+        editSession.setBiome(position, BiomeTypes.DESERT);
+        editSession.getWorld().setWeather(WeatherTypes.CLEAR);
 
         return true;
     }

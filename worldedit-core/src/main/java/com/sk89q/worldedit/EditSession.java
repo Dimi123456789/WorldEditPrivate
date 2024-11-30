@@ -2999,14 +2999,4 @@ public class EditSession implements Extent, AutoCloseable {
         Operations.completeLegacy(visitor);
         return affectdBlocks;
     }
-
-    public int weatherHellEffect(Region region) throws MaxChangedBlocksException {
-        checkNotNull(region);
-
-        HellEffect hellEffect = new HellEffect(this);
-        FlatRegion flatRegion = Regions.asFlatRegion(region);
-        LayerVisitor visitor = new LayerVisitor(flatRegion, minimumBlockY(region), maximumBlockY(region), hellEffect);
-        Operations.completeLegacy(visitor);
-        return hellEffect.getAffected();
-    }
 }

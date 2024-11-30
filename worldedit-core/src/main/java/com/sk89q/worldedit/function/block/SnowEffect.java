@@ -22,12 +22,14 @@
         import com.sk89q.worldedit.EditSession;
         import com.sk89q.worldedit.WorldEditException;
         import com.sk89q.worldedit.function.LayerFunction;
-        import com.sk89q.worldedit.function.mask.BlockTypeMask;
-        import com.sk89q.worldedit.function.mask.Mask;
+        import com.sk89q.worldedit.function.mask.*;
         import com.sk89q.worldedit.math.BlockVector3;
+        import com.sk89q.worldedit.world.biome.BiomeTypes;
+        import com.sk89q.worldedit.world.block.BlockCategories;
         import com.sk89q.worldedit.world.block.BlockState;
         import com.sk89q.worldedit.world.block.BlockType;
         import com.sk89q.worldedit.world.block.BlockTypes;
+        import com.sk89q.worldedit.world.weather.WeatherTypes;
         import org.mozilla.javascript.ast.Block;
 
         import java.util.Random;
@@ -35,7 +37,7 @@
         import static com.google.common.base.Preconditions.checkNotNull;
 
         /**
-         * Changes the blocks of the building to make the building have a drought effect
+         * Changes the blocks of the building to make the building have a snowy effect
          */
         public class SnowEffect implements LayerFunction {
 
@@ -47,15 +49,16 @@
             private final Random random;
 
             /**
-             * Make a new DroughtEffect object.
+                 * Make a new SnowEffect object.
              *
              * @param editSession an edit session
              */
             public SnowEffect(EditSession editSession) {
                 checkNotNull(editSession);
                 this.editSession = editSession;
-                this.mask = new BlockTypeMask(editSession, BlockTypes.CHERRY_LOG, BlockTypes.SPRUCE_STAIRS,
-                        BlockTypes.GRASS_BLOCK, BlockTypes.CHERRY_LEAVES, BlockTypes.DARK_OAK_STAIRS);
+                this.mask = new MaskUnion(new BlockCategoryMask(editSession, BlockCategories.STAIRS),
+                        new BlockCategoryMask(editSession, BlockCategories.LOGS),
+                        new BlockTypeMask(editSession, BlockTypes.GRASS_BLOCK));
                 this.random = new Random();
             }
 
@@ -81,9 +84,9 @@
              */
             private BlockState getTargetBlock(BlockState currentBlock, BlockVector3 position) throws WorldEditException {
 
-                if (currentBlock.getBlockType() == BlockTypes.CHERRY_LOG) {
+                if (BlockCategories.LOGS.contains(currentBlock.getBlockType())) {
                     return BlockTypes.STRIPPED_WARPED_STEM.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.SPRUCE_STAIRS || currentBlock.getBlockType() == BlockTypes.DARK_OAK_STAIRS) {
+                } else if (BlockCategories.STAIRS.contains(currentBlock.getBlockType())) {
                     addBlockAbove(position, BlockTypes.SNOW_BLOCK.getDefaultState());
                 }
                 return currentBlock;
@@ -98,7 +101,6 @@
                 BlockVector3 abovePosition = position.add(0, 1, 0);
                 BlockState aboveBlock = editSession.getBlock(abovePosition);
 
-                // Somente adiciona neve se o bloco acima estiver vazio
                 if (aboveBlock.getBlockType() == BlockTypes.AIR ) {
                     editSession.setBlock(abovePosition, choosenBlock.getBlockType().getDefaultState());
                 }
@@ -113,14 +115,11 @@
                 BlockState currentBlock  = editSession.getBlock(position);
                 BlockState targetBlock = getTargetBlock(currentBlock, position );
 
-                if (random.nextDouble() < ICE_PERCENTAGE) {
+                if (random.nextDouble() < ICE_PERCENTAGE)
                     addBlockAbove(position, BlockTypes.BLUE_ICE.getDefaultState());
 
-                }
-
-                if (currentBlock.equalsFuzzy(targetBlock)) {
+                if (currentBlock.equalsFuzzy(targetBlock))
                     return false;
-                }
 
                 return editSession.setBlock(position, targetBlock);
             }
@@ -132,6 +131,9 @@
                         ++affected;
                     }
                 }
+
+                editSession.setBiome(position, BiomeTypes.SNOWY_BEACH);
+                editSession.getWorld().setWeather(WeatherTypes.RAIN);
 
                 return true;
             }
