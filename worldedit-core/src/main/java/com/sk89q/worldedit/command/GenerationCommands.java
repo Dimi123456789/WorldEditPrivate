@@ -548,9 +548,22 @@ public class GenerationCommands {
             case POND, OASIS -> {
                 return createPondOasisHole(actor, session, editSession, pos, airPattern, radiusX, radiusY, radiusZ, lakeType);
             }
+            case INFINITE -> {
+                return createInfiniteWaterHole(actor, session, editSession, pos);
+            }
             default -> throw new IllegalStateException("Unexpected value: " + lakeType);
         }
 
+    }
+
+    private int createInfiniteWaterHole(Actor actor, LocalSession session, EditSession editSession, BlockVector3 pos) throws MaxChangedBlocksException, InputParseException {
+        ParserContext context = new ParserContext();
+        context.setActor(actor);
+        context.setSession(session);
+        Region lakeReg = new CuboidRegion(pos.add(0, -1, 0), pos.add(-1,-1,-1));
+        Pattern waterPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:water[level=0]", context);
+        actor.printInfo(TranslatableComponent.of("worldedit.lake.infinite"));
+        return  editSession.replaceBlocks(lakeReg, Masks.alwaysTrue(), waterPattern);
     }
 
     private enum LakeType {
@@ -558,6 +571,7 @@ public class GenerationCommands {
         LAVA,
         POND,
         OASIS,
+        INFINITE,
     }
 
     private int createPondOasisHole(Actor actor, LocalSession session, EditSession editSession, BlockVector3 pos, Pattern pattern, Double radiusX, Double radiusY, Double radiusZ, LakeType lakeType)
@@ -568,8 +582,6 @@ public class GenerationCommands {
         ParserContext context = new ParserContext();
         context.setActor(actor);
         context.setSession(session);
-
-        final double adjustmentFactor = 1.10;
 
         int affected = 0;
 
@@ -605,14 +617,9 @@ public class GenerationCommands {
             prevAffected += affected;
             editSession.close();
 
-            BlockVector3 randomPointForTree = getRandomPointInRegion(surroundingRegion, editSession, waterPos);
-            randomPointForTree = randomPointForTree.withY(waterPos.y() + 1);
-
-            Pattern grassPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:grass_block", context);
-            affected = editSession.replaceBlocks(new CuboidRegion(randomPointForTree, randomPointForTree), Masks.alwaysTrue(), grassPattern);
+            affected = generateTreeOasis(surroundingRegion, editSession, waterPos, context);
             prevAffected += affected;
-            TreeType treeType = TreeType.ACACIA;
-            treeType.generate(editSession, randomPointForTree);
+
             actor.printInfo(TranslatableComponent.of("worldedit.lake.oasis"));
         }
 
@@ -628,19 +635,35 @@ public class GenerationCommands {
             prevAffected += affected;
             editSession.close();
 
-            int nrLilyPads = rand.nextInt(0, (int) (randomRadiusX * 0.8));
-            for(int i = 0; i <= nrLilyPads; i++){
-                BlockVector3 lilyPadPos = waterPos;
-                lilyPadPos = lilyPadPos.add(rand.nextInt(0,(int)(randomRadiusX)), 1, rand.nextInt(0,(int)(randomRadiusZ)));
-                Pattern lilyPadPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:lily_pad", context);
-                BlockVector3 posBelow = lilyPadPos.add(0,-1,0);
-                if(editSession.getBlock(posBelow).toString().equals("minecraft:water[level=0]")) {
-                    editSession.setBlock(lilyPadPos, lilyPadPattern);
-                }
-            }
+            this.generateLilyPads(randomRadiusX, rand, waterPos, randomRadiusZ, editSession, context);
+
             actor.printInfo(TranslatableComponent.of("worldedit.lake.pond"));
         }
         return prevAffected;
+    }
+
+    private int generateTreeOasis(Region surroundingRegion, EditSession editSession, BlockVector3 waterPos, ParserContext context) throws MaxChangedBlocksException, InputParseException {
+        BlockVector3 randomPointForTree = getRandomPointInRegion(surroundingRegion, editSession, waterPos);
+        randomPointForTree = randomPointForTree.withY(waterPos.y() + 1);
+
+        Pattern grassPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:grass_block", context);
+        int affected = editSession.replaceBlocks(new CuboidRegion(randomPointForTree, randomPointForTree), Masks.alwaysTrue(), grassPattern);
+        TreeType treeType = TreeType.ACACIA;
+        treeType.generate(editSession, randomPointForTree);
+        return affected;
+    }
+
+    private void generateLilyPads(double randomRadiusX, Random rand, BlockVector3 waterPos, double randomRadiusZ, EditSession editSession, ParserContext context) throws MaxChangedBlocksException, InputParseException {
+        int nrLilyPads = rand.nextInt(0, (int) (randomRadiusX * 0.8));
+        for(int i = 0; i <= nrLilyPads; i++){
+            BlockVector3 lilyPadPos = waterPos;
+            lilyPadPos = lilyPadPos.add(rand.nextInt(0,(int)(randomRadiusX)), 1, rand.nextInt(0,(int)(randomRadiusZ)));
+            Pattern lilyPadPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:lily_pad", context);
+            BlockVector3 posBelow = lilyPadPos.add(0,-1,0);
+            if(editSession.getBlock(posBelow).toString().equals("minecraft:water[level=0]")) {
+                editSession.setBlock(lilyPadPos, lilyPadPattern);
+            }
+        }
     }
 
     private static @NotNull Region generateSurroundingRegion(Region sphere, BlockVector3 waterPos) {

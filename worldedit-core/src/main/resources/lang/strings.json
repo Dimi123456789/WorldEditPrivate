@@ -491,7 +491,8 @@
     "worldedit.lake.pond": "Created a pond",
     "worldedit.lake.lava": "Created a lava lake",
     "worldedit.lake.oasis": "Created an oasis",
-    "worldedit.lake.invalidArgument": "Invalid lake type, try: [water | lava | pond | oasis]",
+    "worldedit.lake.infinite": "Created an infinite water source",
+    "worldedit.lake.invalidArgument": "Invalid lake type, try: [water | lava | pond | oasis | infinite]",
     "worldedit.lake.invalidRadii": "Radius too small, radius should be greater than or equal to 5",
     "worldedit.lake.invalidStartPos": "Command can only be used while standing on the ground"
 }
