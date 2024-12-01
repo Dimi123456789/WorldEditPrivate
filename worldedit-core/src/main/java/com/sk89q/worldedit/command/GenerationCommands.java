@@ -19,6 +19,7 @@
 
 package com.sk89q.worldedit.command;
 
+import java.util.LinkedList;
 import java.util.Random;
 import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.command.util.CommandPermissions;
@@ -28,28 +29,29 @@ import com.sk89q.worldedit.entity.Player;
 import com.sk89q.worldedit.extension.input.InputParseException;
 import com.sk89q.worldedit.extension.input.ParserContext;
 import com.sk89q.worldedit.extension.platform.Actor;
+import com.sk89q.worldedit.function.mask.BlockTypeMask;
 import com.sk89q.worldedit.function.mask.Masks;
 import com.sk89q.worldedit.function.pattern.Pattern;
-import com.sk89q.worldedit.internal.annotation.OptionalArg;
 import com.sk89q.worldedit.internal.annotation.Radii;
 import com.sk89q.worldedit.internal.annotation.Selection;
 import com.sk89q.worldedit.internal.expression.ExpressionException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.EllipsoidRegion;
 import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.util.TreeGenerator;
 import com.sk89q.worldedit.util.TreeGenerator.TreeType;
 import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import com.sk89q.worldedit.util.formatting.text.TranslatableComponent;
 import com.sk89q.worldedit.world.biome.BiomeType;
+import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.generation.ConfiguredFeatureType;
 import com.sk89q.worldedit.world.generation.StructureType;
-
 import org.enginehub.piston.annotation.Command;
 import org.enginehub.piston.annotation.CommandContainer;
 import org.enginehub.piston.annotation.param.Arg;
 import org.enginehub.piston.annotation.param.Switch;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -502,7 +504,6 @@ public class GenerationCommands {
                     @Radii(3)
                     List<Double> radii,
                     @Arg(desc = "Type of lake (e.g: oasis, lava, pond, water)")
-                    @OptionalArg
                     String type) throws WorldEditException {
         double radiusX;
         double radiusY;
@@ -560,13 +561,16 @@ public class GenerationCommands {
         final double adjustmentFactor = 1.10;
 
         int affected = 0;
-        BlockVector3 newPos = pos.add((int) (radiusX * adjustmentFactor), 0, 0);
 
         double randomRadiusX = radiusX + (rand.nextDouble() * 10.0 - 5.0);
         double randomRadiusY = radiusY + (rand.nextDouble() * 10.0 - 5.0);
         double randomRadiusZ = radiusZ + (rand.nextDouble() * 10.0 - 5.0);
 
-        affected = editSession.makeSphere(newPos, pattern, randomRadiusX, randomRadiusY, randomRadiusZ, true);
+        Vector3 radius = new Vector3(randomRadiusX + 7, randomRadiusY +7 , randomRadiusZ + 7);
+
+        Region sphere = new EllipsoidRegion(editSession.getWorld(), pos, radius);
+
+        affected = editSession.makeSphere(pos, pattern, randomRadiusX, randomRadiusY, randomRadiusZ, true);
         prevAffected += affected;
         editSession.close();
 
@@ -581,10 +585,7 @@ public class GenerationCommands {
         if (lakeType == LakeType.OASIS) {
             Pattern sandPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:sand", context);
 
-            BlockVector3 min = pos.subtract((int) (radiusX * 1.5), (int) (radiusY * 1.5), (int) (radiusZ * 1.5));
-            BlockVector3 max = pos.add((int) (radiusX * 1.5), (int) (radiusY * 1.5), (int) (radiusZ * 1.5));
-
-            Region surroundingRegion = new CuboidRegion(min, max);
+            Region surroundingRegion = generateSurroundingRegion(sphere, waterPos);
 
             BlockVector3 randomPointForTree = getRandomPointInRegion(surroundingRegion);
 
@@ -594,35 +595,45 @@ public class GenerationCommands {
             affected = editSession.replaceBlocks(surroundingRegion, Masks.alwaysTrue(), sandPattern);
             prevAffected += affected;
 
-            TreeGenerator.TreeType treeType = TreeType.RANDOM_JUNGLE;
+            TreeType treeType = TreeType.RANDOM_JUNGLE;
             treeType.generate(editSession, randomPointForTree);
         }
 
         if (lakeType == LakeType.POND) {
-            Pattern mudPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:mud", context);
+            Pattern mudPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:podzol", context);
 
-            BlockVector3 minSurr = pos.subtract((int) (radiusX * 1.5), (int) (radiusY * 1.5), (int) (radiusZ * 1.5));
-            BlockVector3 maxSurr = pos.add((int) (radiusX * 1.5), (int) (radiusY * 1.5), (int) (radiusZ * 1.5));
+            List<BlockType> airWaterType = new LinkedList<BlockType>();
+            airWaterType.addLast(new BlockType("minecraft:water[level=0]"));
+            airWaterType.addLast(new BlockType("minecraft:air"));
+            Region surroundingRegion = generateSurroundingRegion(sphere, waterPos);
 
-            Region surroundingRegion = new CuboidRegion(minSurr, maxSurr);
-
-            affected = editSession.replaceBlocks(surroundingRegion, Masks.alwaysTrue(), mudPattern);
+            affected = editSession.replaceBlocks(surroundingRegion, Masks.negate(new BlockTypeMask(editSession, airWaterType)), mudPattern);
             prevAffected += affected;
 
-            int nrLilyPads = rand.nextInt(1, (int) (radiusX * 0.5));
+            int nrLilyPads = rand.nextInt(1, (int) (randomRadiusX * 0.8));
             for(int i = 0; i <= nrLilyPads; i++){
                 BlockVector3 lilyPadPos = waterPos;
-                lilyPadPos = lilyPadPos.withX(rand.nextInt((int)(0 - radiusX), (int)(0 + radiusX)));
-                lilyPadPos = lilyPadPos.withY(lilyPadPos.y() + 1);
+                lilyPadPos = lilyPadPos.add(rand.nextInt(0,(int)(randomRadiusX)), 1, rand.nextInt(0,(int)(randomRadiusZ)));
                 Pattern lilyPadPattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:lily_pad", context);
                 editSession.setBlock(lilyPadPos, lilyPadPattern);
             }
-            affected = editSession.replaceBlocks(surroundingRegion, Masks.alwaysTrue(), mudPattern);
-            prevAffected += affected;
         }
         return prevAffected;
-
     }
+
+    private static @NotNull Region generateSurroundingRegion(Region sphere, BlockVector3 waterPos) {
+        BlockVector3 min = sphere.getMinimumPoint();
+        BlockVector3 max = sphere.getMaximumPoint();
+
+        min = min.x() >= 0 ? min.withX(min.x() + 5):min.withX(min.x() - 5);
+        max = max.x() >= 0 ? max.withX(max.x() + 5):max.withX(max.x() - 5);
+        max = max.withY(waterPos.y());
+        min = min.z() >= 0 ? min.withZ(min.z() + 5):min.withZ(min.z() - 5);
+        max = max.z() >= 0 ? max.withZ(max.z() + 5):max.withZ(max.z() - 5);
+
+        return new CuboidRegion(min, max);
+    }
+
 
     private BlockVector3 getRandomPointInRegion(Region surroundingRegion) {
         Random random = new Random();
@@ -661,6 +672,8 @@ public class GenerationCommands {
                 {0, 0, (int) (radiusZ * adjustmentFactor)}
         };
 
+        Region[] spheres = new Region[3];
+        int i = 0;
         for (int[] displacement : displacements) {
             int affected = 0;
             BlockVector3 newPos = pos.add(displacement[0], displacement[1], displacement[2]);
@@ -669,8 +682,13 @@ public class GenerationCommands {
             double randomRadiusY = radiusY + (rand.nextDouble() * 10.0 - 5.0);
             double randomRadiusZ = radiusZ + (rand.nextDouble() * 10.0 - 5.0);
 
+            Vector3 radius = new Vector3(randomRadiusX + 7, randomRadiusY + 7, randomRadiusZ + 7);
+
+            spheres[i] = new EllipsoidRegion(editSession.getWorld(), newPos, radius);
+
             affected = editSession.makeSphere(newPos, pattern, randomRadiusX, randomRadiusY, randomRadiusZ, true);
             prevAffected += affected;
+            i++;
         }
         editSession.close();
 
@@ -683,14 +701,15 @@ public class GenerationCommands {
 
         if (lakeType == LakeType.LAVA) {
             Pattern stonePattern = WorldEdit.getInstance().getPatternFactory().parseFromInput("minecraft:stone", context);
+            List<BlockType> airLavaType = new LinkedList<BlockType>();
+            airLavaType.addLast(new BlockType("minecraft:lava[level=0]"));
+            airLavaType.addLast(new BlockType("minecraft:air"));
+            for(int j= 0; j < 3; j++) {
+                Region surroundingRegion = generateSurroundingRegion(spheres[j], waterPos);
 
-            BlockVector3 min = pos.subtract((int) (radiusX * 1.5), (int) (radiusY * 1.5), (int) (radiusZ * 1.5));
-            BlockVector3 max = pos.add((int) (radiusX * 1.5), (int) (radiusY * 1.5), (int) (radiusZ * 1.5));
-
-            Region surroundingRegion = new CuboidRegion(min, max);
-
-            affected = editSession.replaceBlocks(surroundingRegion, Masks.alwaysTrue(), stonePattern);
-            prevAffected += affected;
+                affected = editSession.replaceBlocks(surroundingRegion, Masks.negate(new BlockTypeMask(editSession, airLavaType)), stonePattern);
+                prevAffected += affected;
+            }
         }
         return prevAffected;
     }
