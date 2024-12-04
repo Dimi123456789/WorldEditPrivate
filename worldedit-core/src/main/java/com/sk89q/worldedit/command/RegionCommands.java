@@ -628,19 +628,13 @@ public class RegionCommands {
                        ) throws WorldEditException{
 
         int affected = 0;
-        WeatherEffect   weatherEffect;
-
-        try {
-            weatherEffect = WeatherEffect.valueOf(effect.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.invalidArgument", TextComponent.of("Invalid effect: " + effect)));
-            return affected;
-        }
+        WeatherEffect weatherEffect = WeatherEffect.valueOf(effect.toUpperCase());
 
         switch (weatherEffect) {
             case DROUGHT ->  {affected = editSession.weatherDroughtEffect(region);
             actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.drought", TextComponent.of(affected).color()));}
-            case RAIN -> System.out.println("Teste chuva");
+            case RAIN -> {affected = editSession.weatherRainEffect(region);
+                actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.rain", TextComponent.of(affected).color()));}
             case SNOW ->{  affected = editSession.weatherSnowEffect(region);
                 actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.snow", TextComponent.of(affected)));}
             case HELL -> {affected = editSession.weatherHellEffect(region);
@@ -655,6 +649,6 @@ public class RegionCommands {
         RAIN,
         SNOW,
         DROUGHT,
-        HELL,
+        HELL
     }
 }

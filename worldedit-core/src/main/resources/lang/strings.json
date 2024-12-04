@@ -485,5 +485,7 @@
 
     "worldedit.weatherCommand.drought": "Transformed the blocks to simulate a drought environment!",
     "worldedit.weatherCommand.snow": "Transformed the blocks to simulate a snowy environment!",
+    "worldedit.weatherCommand.hell": "Transformed the blocks to simulate a hell environment!",
+    "worldedit.weatherCommand.rain": "Transformed the blocks to simulate a rainy environment!",
     "worldedit.weatherCommand.invalidArgument": "You should choose between [drought | snow | rain | hell]"
 }
