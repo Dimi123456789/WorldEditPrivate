@@ -485,6 +485,7 @@
 
     "worldedit.weatherCommand.drought": "Transformed the blocks to simulate a drought environment!",
     "worldedit.weatherCommand.snow": "Transformed the blocks to simulate a snowy environment!",
+
     "worldedit.weatherCommand.invalidArgument": "You should choose between [drought | snow | rain | hell]",
 
     "worldedit.lake.water": "Created a lake",
@@ -494,5 +495,9 @@
     "worldedit.lake.infinite": "Created an infinite water source",
     "worldedit.lake.invalidArgument": "Invalid lake type, try: [water | lava | pond | oasis | infinite]",
     "worldedit.lake.invalidRadii": "Radius too small, radius should be greater than or equal to 5",
-    "worldedit.lake.invalidStartPos": "Command can only be used while standing on the ground"
+    "worldedit.lake.invalidStartPos": "Command can only be used while standing on the ground",
+
+    "worldedit.weatherCommand.hell": "Transformed the blocks to simulate a hell environment!",
+    "worldedit.weatherCommand.rain": "Transformed the blocks to simulate a rainy environment!",
+    "worldedit.weatherCommand.invalidArgument": "You should choose between [drought | snow | rain | hell]"
 }
