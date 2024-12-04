@@ -58,7 +58,8 @@
                 this.editSession = editSession;
                 this.mask =  new MaskUnion(new BlockTypeMask(editSession, BlockTypes.WATER, BlockTypes.OAK_LOG, BlockTypes.SPRUCE_LOG,
                         BlockTypes.SPRUCE_PLANKS), new BlockCategoryMask(editSession, BlockCategories.LEAVES),
-                        new BlockCategoryMask(editSession, BlockCategories.LOGS), new BlockCategoryMask(editSession, BlockCategories.DIRT));
+                        new BlockCategoryMask(editSession, BlockCategories.LOGS), new BlockCategoryMask(editSession, BlockCategories.DIRT),
+                        new BlockCategoryMask(editSession, BlockCategories.PLANKS));
                 this.random = new Random();
             }
 
@@ -117,7 +118,7 @@
 
                 if (BlockCategories.PLANKS.contains(currentBlock.getBlockType())) {
                     return BlockTypes.SPRUCE_PLANKS.getDefaultState();
-                } else if (BlockCategories.OAK_LOGS.contains(currentBlock.getBlockType())) {
+                } else if (BlockCategories.LOGS.contains(currentBlock.getBlockType())) {
                     return BlockTypes.SPRUCE_LOG.getDefaultState();
                 } else{
                     return currentBlock;
