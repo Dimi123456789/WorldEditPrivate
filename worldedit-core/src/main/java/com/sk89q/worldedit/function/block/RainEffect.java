@@ -23,10 +23,13 @@
         import com.sk89q.worldedit.WorldEditException;
         import com.sk89q.worldedit.function.LayerFunction;
         import com.sk89q.worldedit.function.mask.*;
+        import com.sk89q.worldedit.function.pattern.Pattern;
+        import com.sk89q.worldedit.function.pattern.RandomPattern;
         import com.sk89q.worldedit.math.BlockVector3;
         import com.sk89q.worldedit.world.biome.BiomeTypes;
         import com.sk89q.worldedit.world.block.*;
         import com.sk89q.worldedit.world.weather.WeatherTypes;
+
 
         import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,10 +38,11 @@
         /**
          * Changes the blocks of the building to make the building have a drought effect
          */
-        public class HellEffect implements LayerFunction {
+        public class RainEffect implements LayerFunction {
 
-            private static final double SHROOMLIGHT = 0.05;
-            private static final double TWISTING_VINES = 0.05;
+            private static final double PUDDLE = 0.1;
+            private static final double TALLFLOWER = 0.08;
+
             private final EditSession editSession;
             private final Mask mask;
             private int affected = 0;
@@ -49,12 +53,11 @@
              *
              * @param editSession an edit session
              */
-            public HellEffect(EditSession editSession) {
+            public RainEffect(EditSession editSession) {
                 checkNotNull(editSession);
                 this.editSession = editSession;
-                this.mask =  new MaskUnion(new BlockTypeMask(editSession, BlockTypes.GRASS_BLOCK, BlockTypes.SHORT_GRASS,BlockTypes.POPPY,BlockTypes.FARMLAND,
-                        BlockTypes.WATER, BlockTypes.CLAY, BlockTypes.STONE, BlockTypes.WARPED_STEM, BlockTypes.WARPED_WART_BLOCK, BlockTypes.SAND,
-                        BlockTypes.SHROOMLIGHT, BlockTypes.TALL_GRASS, BlockTypes.TWISTING_VINES), new BlockCategoryMask(editSession, BlockCategories.LEAVES),
+                this.mask =  new MaskUnion(new BlockTypeMask(editSession, BlockTypes.WATER, BlockTypes.OAK_LOG, BlockTypes.SPRUCE_LOG,
+                        BlockTypes.SPRUCE_PLANKS), new BlockCategoryMask(editSession, BlockCategories.LEAVES),
                         new BlockCategoryMask(editSession, BlockCategories.LOGS), new BlockCategoryMask(editSession, BlockCategories.DIRT));
                 this.random = new Random();
             }
@@ -73,48 +76,51 @@
                 return mask.test(position);
             }
 
-            private BlockState getTargetBlock(BlockState currentBlock, BlockVector3 position) throws WorldEditException {
+            private Pattern growCrops() {
+                RandomPattern pattern = new RandomPattern();
+                BlockType grass = BlockTypes.SHORT_GRASS;
+                if (grass == null) {
+                    // Fallback for <1.20.3 compat
+                    @SuppressWarnings("deprecation")
+                    BlockType deprecatedGrass = BlockTypes.GRASS;
+                    grass = deprecatedGrass;
+                }
 
-                if (random.nextDouble() < SHROOMLIGHT) {
-                    addTreeDetail(position, BlockTypes.SHROOMLIGHT.getDefaultState());
-                }
-                if (random.nextDouble() < TWISTING_VINES) {
-                    addTreeDetail(position, BlockTypes.TWISTING_VINES.getDefaultState());
-                }
-                if (currentBlock.getBlockType() == BlockTypes.GRASS_BLOCK ||
-                        currentBlock.getBlockType() == BlockTypes.FARMLAND) {
-                    return BlockTypes.WARPED_NYLIUM.getDefaultState();
-                } else  if (currentBlock.getBlockType() == BlockTypes.SHORT_GRASS) {
-                    return BlockTypes.NETHER_SPROUTS.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.TALL_GRASS) {
-                    return BlockTypes.WARPED_ROOTS.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.POPPY) {
-                    return BlockTypes.WARPED_FUNGUS.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.CLAY) {
-                    return BlockTypes.BLACKSTONE.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.STONE ||
-                        BlockCategories.DIRT.contains(currentBlock.getBlockType())) {
-                    return BlockTypes.NETHERRACK.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.SAND) {
-                    return BlockTypes.SOUL_SAND.getDefaultState();
-                } else if (currentBlock.getBlockType() == BlockTypes.WATER) {
-                    return BlockTypes.LAVA.getDefaultState();
-                } else if (BlockCategories.LOGS.contains(currentBlock.getBlockType())) {
-                    return BlockTypes.WARPED_STEM.getDefaultState();
-                } else if (BlockCategories.LEAVES.contains(currentBlock.getBlockType())) {
-                    return BlockTypes.WARPED_WART_BLOCK.getDefaultState();
-                } else{
-                    return BlockTypes.AIR.getDefaultState();
-                }
+                pattern.add(grass.getDefaultState(), 300);
+                pattern.add(BlockTypes.POPPY.getDefaultState(), 5);
+                pattern.add(BlockTypes.DANDELION.getDefaultState(), 5);
+                pattern.add(BlockTypes.ROSE_BUSH.getDefaultState(), 5);
+                pattern.add(BlockTypes.ORANGE_TULIP.getDefaultState(), 5);
+                pattern.add(BlockTypes.PINK_TULIP.getDefaultState(), 5);
+                pattern.add(BlockTypes.CORNFLOWER.getDefaultState(), 5);
+                pattern.add(BlockTypes.BLUE_ORCHID.getDefaultState(), 5);
+                return pattern;
             }
 
-            private void addTreeDetail(BlockVector3 position, BlockState choosenBlock)throws  WorldEditException {
-                BlockVector3 bellowPosition = position.add(0, -1, 0);
-                BlockState bellowBlock = editSession.getBlock(bellowPosition);
+            private BlockState getTargetBlock(BlockState currentBlock, BlockVector3 position) throws WorldEditException {
 
-                // Somente adiciona neve se o bloco acima estiver vazio
-                if (bellowBlock.getBlockType() == BlockTypes.AIR ) {
-                    editSession.setBlock(bellowPosition, choosenBlock.getBlockType().getDefaultState());
+                if (currentBlock.getBlockType() == BlockTypes.GRASS_BLOCK) {
+                    editSession.setBlock(position.add(0, 1, 0), growCrops().applyBlock(position));
+
+                    if (random.nextDouble() < TALLFLOWER) {
+                        editSession.setBlock(position.add(0, 1, 0), BlockTypes.ROSE_BUSH.getDefaultState()
+                                .with(BlockTypes.ROSE_BUSH.getProperty("half"), "lower"));
+
+                        editSession.setBlock(position.add(0, 2, 0), BlockTypes.ROSE_BUSH.getDefaultState()
+                                .with(BlockTypes.ROSE_BUSH.getProperty("half"), "upper"));
+                    }
+                }
+
+                if (random.nextDouble() < PUDDLE && currentBlock.getBlockType() == BlockTypes.GRASS_BLOCK) {
+                        return BlockTypes.WATER.getDefaultState();
+                }
+
+                if (BlockCategories.PLANKS.contains(currentBlock.getBlockType())) {
+                    return BlockTypes.SPRUCE_PLANKS.getDefaultState();
+                } else if (BlockCategories.OAK_LOGS.contains(currentBlock.getBlockType())) {
+                    return BlockTypes.SPRUCE_LOG.getDefaultState();
+                } else{
+                    return currentBlock;
                 }
             }
 
@@ -136,8 +142,8 @@
                         ++affected;
                     }
                 }
-
-                editSession.setBiome(position, BiomeTypes.WARPED_FOREST);
+                editSession.setBiome(position, BiomeTypes.DARK_FOREST);
+                editSession.getWorld().setWeather(WeatherTypes.RAIN);
 
                 return true;
             }
