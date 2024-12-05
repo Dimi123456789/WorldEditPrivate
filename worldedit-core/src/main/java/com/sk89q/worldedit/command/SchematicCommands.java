@@ -27,6 +27,7 @@ import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.command.FavoriteManager;
 import com.sk89q.worldedit.command.util.AsyncCommandBuilder;
 import com.sk89q.worldedit.command.util.CommandPermissions;
 import com.sk89q.worldedit.command.util.CommandPermissionsConditionGenerator;
@@ -95,7 +96,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @CommandContainer(superTypes = CommandPermissionsConditionGenerator.Registration.class)
 public class SchematicCommands {
 
-    private static final Map<String, Set<String>> favoritesPerPlayer = new HashMap<>();
+    //private static final Map<String, Set<String>> favoritesPerPlayer = new HashMap<>();
     private static final Logger LOGGER = LogManagerCompat.getLogger();
     private final WorldEdit worldEdit;
     private final FavoriteManager favoriteManager;
@@ -325,18 +326,16 @@ public class SchematicCommands {
 
         String actorName = actor.getName();
         favoritesPerPlayer.putIfAbsent(actorName, new HashSet<>());
-        Set<String> userFavorites = favoritesPerPlayer.get(actorName);
+        Set<String> userFavorites = favoriteManager.getFavorites(actorName);
 
         if (userFavorites.contains(filename)) {
-            userFavorites.remove(filename);
+            favoriteManager.removeFavorite(actorName, filename);
             actor.printInfo(TextComponent.of("Schematic '" + filename + "' removed from favorites."));
         }
         else {
-            userFavorites.add(filename);
+            favoriteManager.addFavorite(actorName, filename);
             actor.printInfo(TextComponent.of("Schematic '" + filename + "' added to favorites."));
         }
-
-        actor.printInfo(TextComponent.of ("Favorites: " + favoritesPerPlayer));
     }
 
     @Command(
@@ -373,7 +372,7 @@ public class SchematicCommands {
                 ? "//schem list -p %page%" + flag : null;
 
         WorldEditAsyncCommandBuilder.createAndSendMessage(actor,
-                new SchematicListTaskWithFavorites(saveDir, pathComparator, page, pageCommand, actor),
+                new SchematicListTaskWithFavorites(saveDir, pathComparator, page, pageCommand, actor, favoriteManager),
                 SubtleFormat.wrap("(Please wait... gathering schematic list.)"));
     }
 
@@ -573,13 +572,15 @@ public class SchematicCommands {
 
     public class SchematicListTaskWithFavorites extends SchematicListTask {
         protected final String actorName;
+        protected final FAvoriteManager favoriteManager;
         private final Map<String, Set<String>> favorites = new HashMap<>();
         protected final Actor actor;
 
-        SchematicListTaskWithFavorites(String prefix, Comparator<Path> pathComparator, int page, String pageCommand, Actor actor) {
+        SchematicListTaskWithFavorites(String prefix, Comparator<Path> pathComparator, int page, String pageCommand, Actor actor, FavoriteManager favoriteManager) {
             super(prefix, pathComparator, page, pageCommand);
             this.actor = actor;
             this.actorName = actor.getName();
+            this.favoriteManager = favoriteManager;
         }
 
         @Override
@@ -593,7 +594,7 @@ public class SchematicCommands {
 
             fileList.sort(pathComparator);
 
-            Set<String> userFavorites = favoritesPerPlayer.getOrDefault(actorName, new HashSet<>());
+            Set<String> userFavorites = favoriteManager.getFavorites(actorName);
             List<Path> favoriteFiles = new ArrayList<>();
             List<Path> otherFiles = new ArrayList<>();
             
