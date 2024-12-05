@@ -21,6 +21,8 @@ package com.sk89q.worldedit.command;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.MoreFiles;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -79,6 +81,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -89,8 +95,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @CommandContainer(superTypes = CommandPermissionsConditionGenerator.Registration.class)
 public class SchematicCommands {
 
+    private static final Map<String, Set<String>> favoritesPerPlayer = new HashMap<>();
     private static final Logger LOGGER = LogManagerCompat.getLogger();
     private final WorldEdit worldEdit;
+    private final FavoriteManager favoriteManager;
 
     /**
      * Create a new instance.
@@ -100,6 +108,7 @@ public class SchematicCommands {
     public SchematicCommands(WorldEdit worldEdit) {
         checkNotNull(worldEdit);
         this.worldEdit = worldEdit;
+        this.favoriteManager = new FavoriteManager();
     }
 
     @Command(
@@ -298,6 +307,39 @@ public class SchematicCommands {
     }
 
     @Command(
+        name = "favorite",
+        desc = "Favorite or unfavorite a schematic"
+    )
+    @CommandPermissions("worldedit.schematic.favorite")
+    public void favorite(Actor actor, @Arg(desc = "File name.") String filename) throws WorldEditException {
+        LocalConfiguration config = worldEdit.getConfiguration();
+        
+        File dir = worldEdit.getWorkingDirectoryPath(config.saveDir).toFile();
+
+        File f = worldEdit.getSafeOpenFile(actor, dir, filename, "schematic", ClipboardFormats.getFileExtensionArray());
+
+        if(!f.exists()) {
+            actor.printError(TranslatableComponent.of("worldedit.schematic.does-not-exist", TextComponent.of(filename)));
+            return;
+        }
+
+        String actorName = actor.getName();
+        favoritesPerPlayer.putIfAbsent(actorName, new HashSet<>());
+        Set<String> userFavorites = favoritesPerPlayer.get(actorName);
+
+        if (userFavorites.contains(filename)) {
+            userFavorites.remove(filename);
+            actor.printInfo(TextComponent.of("Schematic '" + filename + "' removed from favorites."));
+        }
+        else {
+            userFavorites.add(filename);
+            actor.printInfo(TextComponent.of("Schematic '" + filename + "' added to favorites."));
+        }
+
+        actor.printInfo(TextComponent.of ("Favorites: " + favoritesPerPlayer));
+    }
+
+    @Command(
         name = "list",
         aliases = {"all", "ls"},
         desc = "List saved schematics",
@@ -331,7 +373,7 @@ public class SchematicCommands {
                 ? "//schem list -p %page%" + flag : null;
 
         WorldEditAsyncCommandBuilder.createAndSendMessage(actor,
-                new SchematicListTask(saveDir, pathComparator, page, pageCommand),
+                new SchematicListTaskWithFavorites(saveDir, pathComparator, page, pageCommand, actor),
                 SubtleFormat.wrap("(Please wait... gathering schematic list.)"));
     }
 
@@ -437,10 +479,10 @@ public class SchematicCommands {
     }
 
     private static class SchematicListTask implements Callable<Component> {
-        private final Comparator<Path> pathComparator;
-        private final int page;
-        private final Path rootDir;
-        private final String pageCommand;
+        protected final Comparator<Path> pathComparator;
+        protected final int page;
+        protected final Path rootDir;
+        protected final String pageCommand;
 
         SchematicListTask(String prefix, Comparator<Path> pathComparator, int page, String pageCommand) {
             this.pathComparator = pathComparator;
@@ -463,6 +505,10 @@ public class SchematicCommands {
             PaginationBox paginationBox = new SchematicPaginationBox(resolvedRoot, fileList, pageCommand);
             return paginationBox.create(page);
         }
+
+        public Path getRootDir() {
+            return rootDir;
+        }
     }
 
     private static List<Path> allFiles(Path root) throws IOException {
@@ -480,8 +526,8 @@ public class SchematicCommands {
     }
 
     private static class SchematicPaginationBox extends PaginationBox {
-        private final Path rootDir;
-        private final List<Path> files;
+        protected final Path rootDir;
+        protected final List<Path> files;
 
         SchematicPaginationBox(Path rootDir, List<Path> files, String pageCommand) {
             super("Available schematics", pageCommand);
@@ -502,7 +548,6 @@ public class SchematicCommands {
                 .orElse("Unknown");
 
             boolean inRoot = file.getParent().equals(rootDir);
-
             String path = inRoot
                     ? file.getFileName().toString()
                     : file.toString().substring(rootDir.toString().length());
@@ -523,6 +568,96 @@ public class SchematicCommands {
         @Override
         public int getComponentsSize() {
             return files.size();
+        }
+    }
+
+    public class SchematicListTaskWithFavorites extends SchematicListTask {
+        protected final String actorName;
+        private final Map<String, Set<String>> favorites = new HashMap<>();
+        protected final Actor actor;
+
+        SchematicListTaskWithFavorites(String prefix, Comparator<Path> pathComparator, int page, String pageCommand, Actor actor) {
+            super(prefix, pathComparator, page, pageCommand);
+            this.actor = actor;
+            this.actorName = actor.getName();
+        }
+
+        @Override
+        public Component call() throws Exception {
+            Path resolvedRoot = rootDir.toRealPath();
+            List<Path> fileList = allFiles(resolvedRoot);
+
+            if (fileList.isEmpty()) {
+                return ErrorFormat.wrap("No schematics found.");
+            }
+
+            fileList.sort(pathComparator);
+
+            Set<String> userFavorites = favoritesPerPlayer.getOrDefault(actorName, new HashSet<>());
+            List<Path> favoriteFiles = new ArrayList<>();
+            List<Path> otherFiles = new ArrayList<>();
+            
+            for (Path file : fileList) {
+                String fileName = file.getFileName().toString();
+                String baseName = fileName.contains(".") 
+                    ? fileName.substring(0, fileName.lastIndexOf(".")) 
+                    : fileName;
+                if (userFavorites.contains(baseName)) {
+                    favoriteFiles.add(file);
+                }
+                else {
+                    otherFiles.add(file);
+                }
+            }
+
+            List<Path> sortedFiles = new ArrayList<>();
+            sortedFiles.addAll(favoriteFiles);
+            sortedFiles.addAll(otherFiles);
+
+            PaginationBox paginationBox = new SchematicPaginationBoxWithFavorites(resolvedRoot, sortedFiles, pageCommand, userFavorites);
+            return paginationBox.create(page);
+        }
+    }
+
+    private static class SchematicPaginationBoxWithFavorites extends SchematicPaginationBox {
+        private final Set<String> favorites;
+
+        SchematicPaginationBoxWithFavorites(Path rootDir, List<Path> files, String pageCommand, Set<String> favorites) {
+            super(rootDir, files, pageCommand);
+            this.favorites = favorites;
+        }
+
+        @Override
+        public Component getComponent(int number) {
+            checkArgument(number < files.size() && number >= 0);
+            Path file = files.get(number);
+
+            String format = ClipboardFormats.getFileExtensionMap()
+                .get(MoreFiles.getFileExtension(file))
+                .stream()
+                .findFirst()
+                .map(ClipboardFormat::getName)
+                .orElse("Unknown");
+            
+            boolean inRoot = file.getParent().equals(rootDir);
+            String path = inRoot ? file.getFileName().toString() : file.toString().substring(rootDir.toString().length());
+
+            String fileName = file.getFileName().toString();
+            String baseName = fileName.contains(".") 
+                ? fileName.substring(0, fileName.lastIndexOf(".")) 
+                : fileName;
+            boolean isFavorite = favorites.contains(baseName);
+
+            return TextComponent.builder()
+            .content("")
+            .append(TextComponent.of(isFavorite ? "★ " : "").color(TextColor.YELLOW))
+            .append(TextComponent.of("[L]").color(TextColor.GOLD)
+                .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND, "/schem load\"" + path + "\""))
+            .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Click to load"))))
+            .append(TextComponent.space())
+            .append(TextComponent.of(path).color(TextColor.DARK_GREEN)
+                .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of(format))))
+            .build();
         }
     }
 }
