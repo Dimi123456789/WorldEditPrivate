@@ -165,5 +165,5 @@ Scenario Based Testing made by Gonçalo Cascais and Reviewed by João Rivera: It
 
 Code for the base and water type made by Gonçalo Cascais and Reviewed by João Rivera: The code looked good, the only thing that was wrong was the way the radius was used as an argument, later corrected to be a double instead of a list
 
-Tour report made by João Rivera and Reviewd by João Nascimento: 
+Tour report made by João Rivera and Reviewed by João Nascimento: 
 
