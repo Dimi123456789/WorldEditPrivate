@@ -314,35 +314,41 @@ public class SchematicCommands {
     @CommandPermissions("worldedit.schematic.search")
     public void search(Actor actor,
                    @Arg(desc = "Search term.")
-                       String searchTerm) throws WorldEditException {
+                       String searchTerm,
+                       @ArgFlag(name = 'p', desc = "Page to view.", def = "1") int page) throws WorldEditException {
         LocalConfiguration config = worldEdit.getConfiguration();
         File dir = worldEdit.getWorkingDirectoryPath(config.saveDir).toFile();
 
         if (!dir.exists() || !dir.isDirectory()) {
-            actor.printError(TranslatableComponent.of("worldedit.schematic.search.no-directory"));
+            actor.printError(TranslatableComponent.of("worldedit.schematic.search.no-directory").color(TextColor.RED));
             return;
         }
 
         String searchQuery = searchTerm.toLowerCase();
-        List<String> matchingFiles = new ArrayList<>();
-        
-        
+        List<Path> matchingFiles = new ArrayList<>();
 
-        for (File file : dir.listFiles()) {
-            String fileName = file.getName().substring(0, file.getName().lastIndexOf('.'));
-
-            if (file.isFile() && fileName.toLowerCase().contains(searchQuery)) {
-                matchingFiles.add(fileName);
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir.toPath())) {
+            for (Path file : stream) {
+                String fileName = file.getFileName().toString();
+                String baseName = fileName.contains(".")
+                    ? fileName.substring(0, fileName.lastIndexOf('.'))
+                    : fileName;
+    
+                if (Files.isRegularFile(file) && baseName.toLowerCase().contains(searchQuery)) {
+                    matchingFiles.add(file);
+                }
             }
+        } catch (IOException e) {
+            actor.printError(TranslatableComponent.of("worldedit.schematic.search.error", TextComponent.of(e.getMessage())).color(TextColor.RED));
+            return;
         }
 
         if (matchingFiles.isEmpty()) {
-            actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.does-not-exist", TextComponent.of(searchTerm)));
+            actor.printError(TranslatableComponent.of("worldedit.schematic.search.does-not-exist", TextComponent.of(searchTerm)));
         } else {
-            actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.results", TextComponent.of(searchTerm)));
-            for (String file : matchingFiles) {
-                actor.printInfo(TextComponent.of(" - " + file));
-            }
+            matchingFiles.sort(Comparator.naturalOrder());
+            PaginationBox paginationBox = new SchematicPaginationBox(dir.toPath(), matchingFiles, "//schem search " + searchTerm + " -p %page%");
+            actor.print(paginationBox.create(page));
         }
     }
 
@@ -567,7 +573,7 @@ public class SchematicCommands {
         protected final List<Path> files;
 
         SchematicPaginationBox(Path rootDir, List<Path> files, String pageCommand) {
-            super("Available schematics", pageCommand);
+            super("Found schematics", pageCommand);
             this.rootDir = rootDir;
             this.files = files;
         }

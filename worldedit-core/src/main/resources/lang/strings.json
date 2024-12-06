@@ -137,10 +137,8 @@
     "worldedit.schematic.formats.title": "Available clipboard formats (Name: Lookup names)",
     "worldedit.schematic.unsupported-minecraft-version": "This version of WorldEdit does not support your Minecraft version. Schematics will not work until this is resolved.",
     "worldedit.schematic.favorite.does-not-exist": "Schematic {0} does not exist!",
-    
     "worldedit.schematic.search.no-directory": "There are no schematics saved.",
     "worldedit.schematic.search.does-not-exist": "Schematic {0} does not exist!",
-    "worldedit.schematic.search.results": "Found schematics for \"{0}\":",
 
     "worldedit.pos.already-set": "Position already set.",
     "worldedit.pos.console-require-coords": "You must provide coordinates as console.",
