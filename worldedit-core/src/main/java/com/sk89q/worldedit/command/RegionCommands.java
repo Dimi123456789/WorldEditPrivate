@@ -627,8 +627,15 @@ public class RegionCommands {
                        String  effect
                        ) throws WorldEditException{
 
-        int affected = 0;
-        WeatherEffect weatherEffect = WeatherEffect.valueOf(effect.toUpperCase());
+       int affected = 0;
+        WeatherEffect   weatherEffect;
+
+        try {
+            weatherEffect = WeatherEffect.valueOf(effect.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            actor.printInfo(TranslatableComponent.of("worldedit.weatherCommand.invalidArgument", TextComponent.of("Invalid effect: " + effect)));
+            return affected;
+        }
 
         switch (weatherEffect) {
             case DROUGHT ->  {affected = editSession.weatherDroughtEffect(region);
