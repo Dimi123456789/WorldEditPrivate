@@ -7,6 +7,9 @@ Dimitrios Schoinas 65313
 
 ## Management info
 Burndown chart
+
+[Sprint7.xlsx](https://github.com/user-attachments/files/18037792/Sprint7.xlsx)
+
 Scrum board
 
 ![image](https://github.com/user-attachments/assets/18eb6e16-298e-47cc-94d0-d49e140d15c7)
