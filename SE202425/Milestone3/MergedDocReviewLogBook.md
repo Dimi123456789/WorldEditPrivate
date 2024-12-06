@@ -1,3 +1,15 @@
+**User Storys**
+User story 1 
+
+Reviewd by: Diogo Mateus e Dimitrios Schoinas- We think that this command already exists, however , if you extend it by implementing new features like a favourites system, it will be a handsome idea.
+
+User story 2
+
+Reviewd by: João Rivera e Gonçalo Cascais - For us the idea seems very appealing and interesting.
+
+User story 3
+
+Reviewd by:João Nascimento - It's a very good idea to implement this command.
 
 **Code metrics Reviews**
 
@@ -59,12 +71,11 @@ Reveiew Code Smell 3: Gonçalo Cascais 60046 - I completely agree with your sugg
 
 Dimitrios Patterns
 
-Review Code Smell 1: Diogo Mateus 65379 - More examples than needed which helps identify and visualize the problems better, good work. You also divided the main points well. The only thing to note is that in the Code Snippet, it would be easier if you showed in which line the method was located, as it would make it easier to find in the Class.
+Design pattern 1: Diogo Mateus 65379- Well explained and can't find any errors in the Class Diagram. 5 stars!
 
-Reveiew Code Smell 2: Dimitrios Schoinas 65313 -I think that overall you selected a good code smell since I can easily see a better implementation as you said.
+Design pattern 2: João Nascimento 62896 - Solid and well explained!
 
-Reveiew Code Smell 3: Gonçalo Cascais 60046 - I completely agree with your suggestion to create an object for the parameters instead of passing multiple individual parameters. This approach will definitely enhance the clarity and maintainability of our code.
-Diogo Patterns
+Design Pattern 3: Gonçalo Cascais 60046 - Well defined and clearly implemented
 
 Pattern 1 - Dimitrios Schoinas 65313 - I think that the class is well identified even though you could show a better method as an example
 
@@ -99,16 +110,34 @@ Pattern 3 - Diogo Mateus 65379- You think well, that's a proxy indeed. Well done
 **Use cases Reviews**:
 
 Dimitrios Use cases
+
 Review from João Rivera 62877: I feel like the saying the player binds the tool is incorrect as it is the system itself that binds it, the player simply selects which tool he wishes to be bound.
 
 Diogo Use cases
+
 Review from Gonçalo Cascais 60046: Everything seems fine, all use cases are clearly identified
 
 Goncalo use cases
-Review from Gonçalo Cascais 60046: Everything seems fine, all use cases are clearly identified
+
+Review from: Dimitrios Schoinas - I think that the line disposition is wrong. The lines should come from different points and not all from the same point.
 
 Joao Nascimento use cases
-Diogo Mateus 65379: At the moment of this writing, you have the same Use Case that Rivera did "pos1". That's something you need to change, since he did it first.
+
+Review from Diogo Mateus 65379: At the moment of this writing, you have the same Use Case that Rivera did "pos1". That's something you need to change, since he did it first.
 
 Joao Rivera Use cases
+
 Review from João Nascimento 62896 -> A nice and detailed description and a very nice graphic, these are very good use cases, good job!
+
+
+**Milestone3**
+
+**//weather <argument>**
+
+Use case text made by Dimitrios and Reviewd by Diogo:
+Use case diagram made by Diogo and Reviewd by Dimitrios: I'm not 100% sure if the diagram is correct but overall seems ok.
+Class Diagram made by Dimitrios and Reviewd by Diogo:
+Sequence diagram  made by Dimitrios and Reviewd by Diogo:
+Scenario Based Testing( Drought/Snow) made by Dimitrios and Reviewd by Diogo:
+Scenario Based Testing( hell/rain)  made by Diogo and Reviewd by Dimitrios: I think that your scenario test base is well implemented
+Tour report made by Diogo and Reviewd by Dimitrios: This tour report is correct and complete.
