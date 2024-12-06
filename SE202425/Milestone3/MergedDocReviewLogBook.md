@@ -135,19 +135,21 @@ Review from João Nascimento 62896 -> A nice and detailed description and a very
 
 **//weather <argument>**
 
-Use case text made by Dimitrios and Reviewd by Diogo:
+Use case text made by Dimitrios and Reviewed by Diogo: You say that "There is a selected region" is a pre condition but after you have
+an altenative flow which says "No Region Selected". If you have that as a pre condition that alternative flow can't happen because you are assuming
+that you always have a selected region. EDIT: After the change I agree with all work done
 
-Use case diagram made by Diogo and Reviewd by Dimitrios: I'm not 100% sure if the diagram is correct but overall seems ok.
+Use case diagram made by Diogo and Reviewed by Dimitrios: I'm not 100% sure if the diagram is correct but overall seems ok.
 
-Class Diagram made by Dimitrios and Reviewd by Diogo:
+Class Diagram made by Dimitrios and Reviewed by Diogo: I can't find any issue with your Class Diagram. Good work!
 
-Sequence diagram  made by Dimitrios and Reviewd by Diogo:
+Sequence diagram made by Dimitrios and Reviewed by Diogo: I did a verification and I agree with your implementation.
 
-Scenario Based Testing( Drought/Snow) made by Dimitrios and Reviewd by Diogo:
+Scenario Based Testing( Drought/Snow) made by Dimitrios and Reviewed by Diogo: I see no problems, all seems good.
 
-Scenario Based Testing( hell/rain)  made by Diogo and Reviewd by Dimitrios: I think that your scenario test base is well implemented
+Scenario Based Testing( hell/rain)  made by Diogo and Reviewed by Dimitrios: I think that your scenario test base is well implemented
 
-Tour report made by Diogo and Reviewd by Dimitrios: This tour report is correct and complete.
+Tour report made by Diogo and Reviewed by Dimitrios: This tour report is correct and complete.
 
 **//lake <radius> <type>**
 
