@@ -1,3 +1,5 @@
+package com.sk89q.worldedit.command;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

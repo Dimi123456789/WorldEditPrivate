@@ -307,8 +307,44 @@ public class SchematicCommands {
         }
     }
 
+    @Command (
+        name = "search",
+        desc = "Search for schematics by name"
+    )
+    @CommandPermissions("worldedit.schematic.search")
+    public void search(Actor actor,
+                   @Arg(desc = "Search term.")
+                       String searchTerm) throws WorldEditException {
+        LocalConfiguration config = worldEdit.getConfiguration();
+        File dir = worldEdit.getWorkingDirectoryPath(config.saveDir).toFile();
+
+        if (!dir.exists() || !dir.isDirectory()) {
+            actor.printError(TranslatableComponent.of("worldedit.schematic.search.no-directory"));
+            return;
+        }
+
+        String searchQuery = searchTerm.toLowerCase(); // Case-insensitive search
+        List<String> matchingFiles = new ArrayList<>();
+
+        for (File file : dir.listFiles()) {
+            if (file.isFile() && file.getName().toLowerCase().contains(searchQuery)) {
+                matchingFiles.add(file.getName());
+            }
+        }
+
+        if (matchingFiles.isEmpty()) {
+            actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.no-results", TextComponent.of(searchTerm)));
+        } else {
+            actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.results", TextComponent.of(searchTerm)));
+            for (String file : matchingFiles) {
+                actor.printInfo(TextComponent.of(" - " + file));
+            }
+        }
+    }
+
     @Command(
         name = "favorite",
+        aliases = {"f"},
         desc = "Favorite or unfavorite a schematic"
     )
     @CommandPermissions("worldedit.schematic.favorite")
@@ -325,7 +361,6 @@ public class SchematicCommands {
         }
 
         String actorName = actor.getName();
-        favoritesPerPlayer.putIfAbsent(actorName, new HashSet<>());
         Set<String> userFavorites = favoriteManager.getFavorites(actorName);
 
         if (userFavorites.contains(filename)) {
@@ -572,7 +607,7 @@ public class SchematicCommands {
 
     public class SchematicListTaskWithFavorites extends SchematicListTask {
         protected final String actorName;
-        protected final FAvoriteManager favoriteManager;
+        protected final FavoriteManager favoriteManager;
         private final Map<String, Set<String>> favorites = new HashMap<>();
         protected final Actor actor;
 
