@@ -149,3 +149,19 @@ Scenario Based Testing( hell/rain)  made by Diogo and Reviewd by Dimitrios: I th
 
 Tour report made by Diogo and Reviewd by Dimitrios: This tour report is correct and complete.
 
+**//lake <radius> <type>**
+
+Use case text made by João Rivera and Reviewed by João Nascimento:
+
+Use case diagram made by João Rivera and Reviewed by João Nascimento:
+
+Class Diagram made by João Rivera and Reviewed by João Nascimento:
+
+Sequence diagram made by João Rivera and Reviewed by João Nascimento:
+
+Scenario Based Testing made by Gonçalo Cascais and Reviewed by João Rivera: It all looks good to me.
+
+Code for the base and water type made by Gonçalo Cascais and Reviewed by João Rivera: The code looked good, the only thing that was wrong was the way the radius was used as an argument, later corrected to be a double instead of a list
+
+Tour report made by João Rivera and Reviewd by João Nascimento: 
+
