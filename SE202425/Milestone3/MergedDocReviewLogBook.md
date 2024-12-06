@@ -1,12 +1,15 @@
 
 Code metrics Reviews
+
 Dimitrios code metrics- Review from Gonçalo Cascais 60046: The metrics are well defined and easy to understand, good work.
 Diogo code metrics-Review by João Nascimento 62896 -> Seems nice and I liked the explanation, identifying where could be a code smell, eventhough not identifying which ones.
 Goncalo code metrics-Review by João Rivera 62877 -> Looks good to me, well explained and associated to extreme cases of each class, just seems like you could've also added which code smells relates to each metric
 Joao Nascimento code metrics- Review by Diogo Mateus 65379: It's explained what each metric does and how it indicate which Code Smells, and I like that. You didn't make a connection with the database and the code. The excel sheet having more information than needed also doesn't help.
 Joao Rivera code metrics-Review from Dimitrios Schoinas 65313: I think that your metrics graph is very well done since it makes easier to identify potencial code smells; however, I can't visualise well your metrics excel document possibly due to incopatibilitys
 
+
 Code smells Reviews:
+
 Dimitrios Code Smells
 Review code smell 1: João Rivera 62877 -Hard to find how you would proceed with the refactoring since it is in the middle of the explanation of how you found this code smell.
 Review code smell 2: Gonçalo Cascais 60046 -Your analysis of the code smell is well done, You've accurately identified the potential issues and provided clear explanations on why they could impact maintainability and readability.
@@ -28,7 +31,9 @@ Review Code Smell 1: Diogo Mateus 65379 - More examples than needed which helps 
 Reveiew Code Smell 2: Dimitrios Schoinas 65313 -I think that overall you selected a good code smell since I can easily see a better implementation as you said.
 Reveiew Code Smell 3: Gonçalo Cascais 60046 - I completely agree with your suggestion to create an object for the parameters instead of passing multiple individual parameters. This approach will definitely enhance the clarity and maintainability of our code.
 
+
 Design Patterns:
+
 Dimitrios Patterns
 Review Code Smell 1: Diogo Mateus 65379 - More examples than needed which helps identify and visualize the problems better, good work. You also divided the main points well. The only thing to note is that in the Code Snippet, it would be easier if you showed in which line the method was located, as it would make it easier to find in the Class.
 Reveiew Code Smell 2: Dimitrios Schoinas 65313 -I think that overall you selected a good code smell since I can easily see a better implementation as you said.
