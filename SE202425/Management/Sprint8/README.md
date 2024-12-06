@@ -8,8 +8,8 @@ Gonçalo Cascais 60046
 ## Management info
 Burndown chart
 
+[Sprint8.xlsx](https://github.com/user-attachments/files/18038038/Sprint8.xlsx)
 
-[[Sprint8.xlsx]]()
 
 Scrum board
 
