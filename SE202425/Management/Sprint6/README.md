@@ -10,5 +10,5 @@ Burndown chart[Sprint6.xlsx](https://github.com/user-attachments/files/18027200/
 
 
 Scrum board
-![Screenshot 2024-12-01 185850](https://github.com/user-attachments/assets/85508bf8-019c-4836-8c1e-2ea28fdd7551)
+![image](https://github.com/user-attachments/assets/70d7e03e-9fdc-44f4-b273-f87fa9ab8e95)
 ![Screenshot 2024-12-01 185909](https://github.com/user-attachments/assets/72df1600-b62a-478d-9697-83d43e712329)
