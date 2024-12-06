@@ -136,9 +136,16 @@ Review from João Nascimento 62896 -> A nice and detailed description and a very
 **//weather <argument>**
 
 Use case text made by Dimitrios and Reviewd by Diogo:
+
 Use case diagram made by Diogo and Reviewd by Dimitrios: I'm not 100% sure if the diagram is correct but overall seems ok.
+
 Class Diagram made by Dimitrios and Reviewd by Diogo:
+
 Sequence diagram  made by Dimitrios and Reviewd by Diogo:
+
 Scenario Based Testing( Drought/Snow) made by Dimitrios and Reviewd by Diogo:
+
 Scenario Based Testing( hell/rain)  made by Diogo and Reviewd by Dimitrios: I think that your scenario test base is well implemented
+
 Tour report made by Diogo and Reviewd by Dimitrios: This tour report is correct and complete.
+
