@@ -498,6 +498,6 @@
     "worldedit.lake.invalidStartPos": "Command can only be used while standing on the ground",
 
     "worldedit.weatherCommand.hell": "Transformed the blocks to simulate a hell environment!",
-    "worldedit.weatherCommand.rain": "Transformed the blocks to simulate a rainy environment!",
-    "worldedit.weatherCommand.invalidArgument": "You should choose between [drought | snow | rain | hell]"
+    "worldedit.weatherCommand.rain": "Transformed the blocks to simulate a rainy environment!"
+
 }
