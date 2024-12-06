@@ -27,10 +27,10 @@ import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
-import com.sk89q.worldedit.command.FavoriteManager;
 import com.sk89q.worldedit.command.util.AsyncCommandBuilder;
 import com.sk89q.worldedit.command.util.CommandPermissions;
 import com.sk89q.worldedit.command.util.CommandPermissionsConditionGenerator;
+import com.sk89q.worldedit.command.util.FavoriteManager;
 import com.sk89q.worldedit.command.util.WorldEditAsyncCommandBuilder;
 import com.sk89q.worldedit.extension.platform.Actor;
 import com.sk89q.worldedit.extension.platform.Capability;
@@ -323,17 +323,21 @@ public class SchematicCommands {
             return;
         }
 
-        String searchQuery = searchTerm.toLowerCase(); // Case-insensitive search
+        String searchQuery = searchTerm.toLowerCase();
         List<String> matchingFiles = new ArrayList<>();
+        
+        
 
         for (File file : dir.listFiles()) {
-            if (file.isFile() && file.getName().toLowerCase().contains(searchQuery)) {
-                matchingFiles.add(file.getName());
+            String fileName = file.getName().substring(0, file.getName().lastIndexOf('.'));
+
+            if (file.isFile() && fileName.toLowerCase().contains(searchQuery)) {
+                matchingFiles.add(fileName);
             }
         }
 
         if (matchingFiles.isEmpty()) {
-            actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.no-results", TextComponent.of(searchTerm)));
+            actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.does-not-exist", TextComponent.of(searchTerm)));
         } else {
             actor.printInfo(TranslatableComponent.of("worldedit.schematic.search.results", TextComponent.of(searchTerm)));
             for (String file : matchingFiles) {
@@ -344,7 +348,6 @@ public class SchematicCommands {
 
     @Command(
         name = "favorite",
-        aliases = {"f"},
         desc = "Favorite or unfavorite a schematic"
     )
     @CommandPermissions("worldedit.schematic.favorite")
@@ -356,7 +359,7 @@ public class SchematicCommands {
         File f = worldEdit.getSafeOpenFile(actor, dir, filename, "schematic", ClipboardFormats.getFileExtensionArray());
 
         if(!f.exists()) {
-            actor.printError(TranslatableComponent.of("worldedit.schematic.does-not-exist", TextComponent.of(filename)));
+            actor.printError(TranslatableComponent.of("worldedit.schematic.favorite.does-not-exist", TextComponent.of(filename)));
             return;
         }
 

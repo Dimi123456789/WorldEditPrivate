@@ -1,4 +1,4 @@
-package com.sk89q.worldedit.command;
+package com.sk89q.worldedit.command.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
