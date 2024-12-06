@@ -1,5 +1,5 @@
 
-Code metrics Reviews
+**Code metrics Reviews**
 
 Dimitrios code metrics- Review from Gonçalo Cascais 60046: The metrics are well defined and easy to understand, good work.
 
@@ -12,7 +12,7 @@ Joao Nascimento code metrics- Review by Diogo Mateus 65379: It's explained what 
 Joao Rivera code metrics-Review from Dimitrios Schoinas 65313: I think that your metrics graph is very well done since it makes easier to identify potencial code smells; however, I can't visualise well your metrics excel document possibly due to incopatibilitys
 
 
-Code smells Reviews:
+**Code smells Reviews:**
 
 Dimitrios Code Smells
 
@@ -55,7 +55,7 @@ Reveiew Code Smell 2: Dimitrios Schoinas 65313 -I think that overall you selecte
 Reveiew Code Smell 3: Gonçalo Cascais 60046 - I completely agree with your suggestion to create an object for the parameters instead of passing multiple individual parameters. This approach will definitely enhance the clarity and maintainability of our code.
 
 
-Design Patterns:
+**Design Patterns:**
 
 Dimitrios Patterns
 
@@ -95,3 +95,20 @@ Pattern 1 - Dimitrios Schoinas 65313- I think that it is a very good example of 
 Pattern 2 - João Nascimento 62896 - Agreed and well identified!
 
 Pattern 3 - Diogo Mateus 65379- You think well, that's a proxy indeed. Well done.
+
+**Use cases Reviews**:
+
+Dimitrios Use cases
+Review from João Rivera 62877: I feel like the saying the player binds the tool is incorrect as it is the system itself that binds it, the player simply selects which tool he wishes to be bound.
+
+Diogo Use cases
+Review from Gonçalo Cascais 60046: Everything seems fine, all use cases are clearly identified
+
+Goncalo use cases
+Review from Gonçalo Cascais 60046: Everything seems fine, all use cases are clearly identified
+
+Joao Nascimento use cases
+Diogo Mateus 65379: At the moment of this writing, you have the same Use Case that Rivera did "pos1". That's something you need to change, since he did it first.
+
+Joao Rivera Use cases
+Review from João Nascimento 62896 -> A nice and detailed description and a very nice graphic, these are very good use cases, good job!
