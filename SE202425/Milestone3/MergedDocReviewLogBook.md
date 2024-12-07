@@ -153,13 +153,13 @@ Tour report made by Diogo and Reviewed by Dimitrios: This tour report is correct
 
 **//lake <radius> <type>**
 
-Use case text made by João Rivera and Reviewed by João Nascimento:
+Use case text made by João Rivera and Reviewed by João Nascimento: that's right! 
 
-Use case diagram made by João Rivera and Reviewed by João Nascimento:
+Use case diagram made by João Rivera and Reviewed by João Nascimento: Simple but that's literally it, simple but effective!
 
-Class Diagram made by João Rivera and Reviewed by João Nascimento:
+Class Diagram made by João Rivera and Reviewed by João Nascimento: It's funny how the generate commands class is at the center and everything else connects to there, nice job!
 
-Sequence diagram made by João Rivera and Reviewed by João Nascimento:
+Sequence diagram made by João Rivera and Reviewed by João Nascimento: I see no problems in it!
 
 Scenario Based Testing made by Gonçalo Cascais and Reviewed by João Rivera: It all looks good to me.
 
@@ -167,5 +167,32 @@ Code for the base and water type made by Gonçalo Cascais and Reviewed by João 
 
 Code for the lava, pond, oasis, infinite types made by João Rivera and Reviewed by João Nascimento:
 
-Tour report made by João Rivera and Reviewed by João Nascimento: 
+Tour report made by João Rivera and Reviewed by João Nascimento: This is all correct and complete.
 
+**//schem favorite <schematic_name>**
+
+Use case text made by João Nascimento and Reviewed by João Rivera:
+
+Use case diagram made by João Nascimento and Reviewed by João Rivera:
+
+Class Diagram made by João Nascimento and Reviewed by João Rivera:
+
+Sequence Diagram made by João Nascimento and Reviewed by João Rivera:
+
+Scenario Based Testing made by João Nascimento and Reviewed by João Rivera:
+
+Tour Report made by João Nascimento and Reviewed by João Rivera:
+
+**//schem search <search_term>**
+
+Use case text made by João Nascimento and Reviewed by João Rivera:
+
+Use case diagram made by João Nascimento and Reviewed by João Rivera:
+
+Class Diagram made by João Nascimento and Reviewed by João Rivera:
+
+Sequence Diagram made by João Nascimento and Reviewed by João Rivera:
+
+Scenario Based Testing made by João Nascimento and Reviewed by João Rivera:
+
+Tour Report made by João Nascimento and Reviewed by João Rivera:
