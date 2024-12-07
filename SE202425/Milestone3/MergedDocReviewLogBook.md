@@ -173,11 +173,11 @@ Tour report made by João Rivera and Reviewed by João Nascimento: This is all c
 
 Use case text made by João Nascimento and Reviewed by João Rivera:
 
-Use case diagram made by João Nascimento and Reviewed by João Rivera:
+Use case diagram made by João Nascimento and Reviewed by Gonçalo Cascais: Looks correct
 
-Class Diagram made by João Nascimento and Reviewed by João Rivera:
+Class Diagram made by João Nascimento and Reviewed by Gonçalo Cascais: Looks correct
 
-Sequence Diagram made by João Nascimento and Reviewed by João Rivera:
+Sequence Diagram made by João Nascimento and Reviewed by Gonçalo Cascais: Looks correct
 
 Scenario Based Testing made by João Nascimento and Reviewed by Gonçalo Cascais: Everything looks fine.
 
@@ -185,13 +185,13 @@ Tour Report made by João Nascimento and Reviewed by Gonçalo Cascais: All corre
 
 **//schem search <search_term>**
 
-Use case text made by João Nascimento and Reviewed by João Rivera:
+Use case text made by João Nascimento and Reviewed by Gonçalo Cascais: Well done
 
-Use case diagram made by João Nascimento and Reviewed by João Rivera:
+Use case diagram made by João Nascimento and Reviewed by Gonçalo Cascais: Well done
 
-Class Diagram made by João Nascimento and Reviewed by João Rivera:
+Class Diagram made by João Nascimento and Reviewed by Gonçalo Cascais: Seems ok
 
-Sequence Diagram made by João Nascimento and Reviewed by João Rivera:
+Sequence Diagram made by João Nascimento and Reviewed by Gonçalo Cascais: Looks correct
 
 Scenario Based Testing made by João Nascimento and Reviewed by Gonçalo Cascais: Everything looks fine.
 
