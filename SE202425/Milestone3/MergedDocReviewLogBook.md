@@ -179,10 +179,9 @@ Class Diagram made by João Nascimento and Reviewed by João Rivera:
 
 Sequence Diagram made by João Nascimento and Reviewed by João Rivera:
 
-Scenario Based Testing made by João Nascimento and Reviewed by João Rivera:
+Scenario Based Testing made by João Nascimento and Reviewed by Gonçalo Cascais: Everything looks fine.
 
-Tour Report made by João Nascimento and Reviewed by João Rivera:
-
+Tour Report made by João Nascimento and Reviewed by Gonçalo Cascais: All correct.
 **//schem search <search_term>**
 
 Use case text made by João Nascimento and Reviewed by João Rivera:
@@ -193,6 +192,6 @@ Class Diagram made by João Nascimento and Reviewed by João Rivera:
 
 Sequence Diagram made by João Nascimento and Reviewed by João Rivera:
 
-Scenario Based Testing made by João Nascimento and Reviewed by João Rivera:
+Scenario Based Testing made by João Nascimento and Reviewed by Gonçalo Cascais: Everything looks fine.
 
-Tour Report made by João Nascimento and Reviewed by João Rivera:
+Tour Report made by João Nascimento and Reviewed by Gonçalo Cascais: All correct.
